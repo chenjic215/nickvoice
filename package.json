@@ -57,6 +57,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-dropzone": "^3.9.1",
+    "react-redux": "^5.0.5",
     "uglifyify": "^3.0.4",
     "watson-developer-cloud": "^2.15.2",
     "watson-react-components": "^0.5.5",

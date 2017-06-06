@@ -6,8 +6,7 @@
 #
 # The following source code is licensed under the MIT license.
 # See the LICENSE file, or https://opensource.org/licenses/MIT.
-#helloashjdabsjbd
-
+#hello
 import os
 import sys
 import time

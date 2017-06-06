@@ -1,7 +1,21 @@
 import React from 'react';
 
 export function Transcript(props) {
+
+  // if (props.messages[0]) {
+  //   if (props.messages[0].results[0].final) {
+  //     console.warn("gainininininini ");
+  //     props.addWatsonToHistory(props.messages[0].results[0].alternatives[0].transcript)
+  //     //console.warn(props.messages[0].results[0].alternatives[0].transcript);
+  //   }
+  // }
+
+
+
   try {
+
+
+
 
     const results = props.messages.map(msg => {
       // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
@@ -12,7 +26,7 @@ export function Transcript(props) {
     }).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
     return (
       <div>
-        Watson : {results}
+        Live Capture : {results}
       </div>
     );
   } catch (ex) {

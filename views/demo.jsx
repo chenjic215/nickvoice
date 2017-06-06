@@ -11,6 +11,7 @@ import {TimingView} from './timing.jsx';
 import JSONView from './json-view.jsx';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
+import {Table} from './table.jsx';
 
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
@@ -26,8 +27,10 @@ export default React.createClass({
       audioSource: null,
       speakerLabels: false,
       keywords: this.getKeywords('en-US_BroadbandModel'),
+      watson: "",
       google: "",
       pullstring: "",
+      history:[],
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the service and what is displayed on the demo, and could cause bugs.
       settingsAtStreamStart: {
@@ -120,34 +123,62 @@ export default React.createClass({
   handleUserFile: function(files) {
     // console.warn(files[0].name);
     // console.warn(this.state.token);
-    var payload = {
-      filename: files[0].name,
-      token: this.state.token
-    };
+    // var payload = {
+    //   filename: files[0].name,
+    //   token: this.state.token
+    // };
+    var filename = files[0].name;
 
-    var data = new FormData();
-    data.append( "json", JSON.stringify( payload ) );
+    // var data = new FormData();
+    // data.append( "json", JSON.stringify( payload ) );
 
     fetch('/api/translation',{
       method: "GET",
       headers: {
         filename: files[0].name,
         token: this.state.token,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
     }).then(res => {
-        // console.warn('I am here');
-        // console.warn(res.json());
+
       if (res.status != 200) {
         throw new Error('Error retrieving auth token');
       }
 
       return res.json();
     }).then( msg => {
-      this.setState({
+
+      var currentTranslate =  {
+        filename: filename,
+        type: "User upload",
         google: msg.google,
         pullstring: msg.pullstring
+      };
+
+      var history = this.state.history;
+
+      if (history.length > 0) {
+        if (history[history.length-1].filename) {
+          //add a new block
+          currentTranslate.id = history.length;
+          history.push(currentTranslate);
+        } else {
+          //edit the last block
+          currentTranslate.id = history[history.length-1].id;
+          currentTranslate.watson = history[history.length-1].watson;
+          history[history.length-1] = currentTranslate;
+        }
+      } else {
+        //add a new block at [0]
+        currentTranslate.id = 0;
+        history.push(currentTranslate);
+      }
+
+      this.setState({
+        google: msg.google,
+        pullstring: msg.pullstring,
+        history: history
       });
     	console.warn(msg);
     });
@@ -160,6 +191,11 @@ export default React.createClass({
     this.setState({audioSource: 'upload'});
     this.playFile(file);
   },
+
+  getOtherTranslation() {
+
+  },
+
 
   handleUserFileRejection: function() {
     this.setState({error: 'Sorry, that file does not appear to be compatible.'});
@@ -339,15 +375,41 @@ export default React.createClass({
     return r;
   },
 
-  getOtherTranslation() {
-
-  },
 
   getFinalAndLatestInterimResult() {
     const final = this.getFinalResults();
     const interim = this.getCurrentInterimResult();
     if (interim) {
       final.push(interim);
+    }
+    if (final[0]) {
+      if (final[0].results[0].final) {
+
+        var history = this.state.history;
+
+        if(history.length > 0) {
+
+          if (!history[history.length-1].watson) {
+            //edit the block
+            history[history.length-1].watson = final[0].results[0].alternatives[0].transcript;
+            this.setState({
+              history: history
+            });
+          }
+
+        } else {
+            var insert = {
+              id: 0,
+              watson : final[0].results[0].alternatives[0].transcript
+            }
+            history.push(insert);
+            this.setState({
+              history: history
+            });
+        }
+
+
+      }
     }
     return final;
   },
@@ -362,6 +424,15 @@ export default React.createClass({
       err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
     }
     this.setState({ error: err.message || err });
+  },
+
+  addWatsonToHistory(watsonTranscript) {
+    console.warn("herersdsd");
+    var history = this.state.history;
+    history[0].watson = watsonTranscript;
+    this.setState(
+      history: history
+    );
   },
 
   render() {
@@ -389,6 +460,7 @@ export default React.createClass({
       : null;
 
     const messages = this.getFinalAndLatestInterimResult();
+    // console.warn(messages);
     const translation = this.getOtherTranslation();
     const micBullet = (typeof window !== "undefined" && recognizeMicrophone.isSupported) ?
         <li className="base--li">Use your microphone to record audio.</li> :
@@ -402,54 +474,56 @@ export default React.createClass({
         <div className="drop-info-container">
           <div className="drop-info">
             <h1>Drop an audio file here.</h1>
-            <p>Watson Speech to Text supports .wav, .opus, and .flac files up to 200mb.</p>
+            <p>This Speech to Text supports .wav, .opus, and .flac files up to 200mb.</p>
           </div>
         </div>
 
-        <h2 className="base--h2">Transcribe Audio</h2>
 
-        <ul className="base--ul">
-            {micBullet}
-            <li className="base--li">Upload pre-recorded audio (.wav, .flac, or .opus only).</li>
-            <li className="base--li">Play one of the sample audio files.*</li>
-        </ul>
-
-        <div className="smalltext">
-        *Both US English broadband sample audio files are covered under the Creative Commons license.
-        </div>
-
-        <div style={{
-          paddingRight: '3em',
-          paddingBottom: '2em'
-        }}>
-          The returned result includes the recognized text, {' '}
-          <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#word_alternatives">word alternatives</a>, {' '}
-          and <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#keyword_spotting">spotted keywords</a>. {' '}
-          Some models can <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#speaker_labels">detect multiple speakers</a>; this may slow down performance.
-        </div>
-
-
-        <div className="flex setup">
-          <div className="column">
-
-            <p>Voice Model: <ModelDropdown model={this.state.model} token={this.state.token} onChange={this.handleModelChange} /></p>
-
-            <p className={this.supportsSpeakerLabels() ? 'base--p' : 'base--p_light'}>
-              <input role="checkbox" className="base--checkbox" type="checkbox" checked={this.state.speakerLabels}
-                     onChange={this.handleSpeakerLabelsChange} disabled={!this.supportsSpeakerLabels()} id="speaker-labels" />
-              <label className="base--inline-label" htmlFor="speaker-labels">
-                Detect multiple speakers {this.supportsSpeakerLabels() ? '' : ' (Not supported on current model)'}
-              </label>
-            </p>
-
-          </div>
-          <div className="column">
-
-            <p>Keywords to spot: <input value={this.state.keywords} onChange={this.handleKeywordsChange} type="text"
-                                        id="keywords"placeholder="Type comma separated keywords here (optional)" className="base--input"/></p>
-
-          </div>
-        </div>
+        {
+          // <h2 className="base--h2">Transcribe Audio</h2>
+          //
+          // <ul className="base--ul">
+          //     {micBullet}
+          //     <li className="base--li">Upload pre-recorded audio (.wav, .flac, or .opus only).</li>
+          //     <li className="base--li">Play one of the sample audio files.*</li>
+          // </ul>
+          //
+          // <div className="smalltext">
+          // *Both US English broadband sample audio files are covered under the Creative Commons license.
+          // </div>
+        // <div style={{
+        //   paddingRight: '3em',
+        //   paddingBottom: '2em'
+        // }}>
+        //   The returned result includes the recognized text, {' '}
+        //   <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#word_alternatives">word alternatives</a>, {' '}
+        //   and <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#keyword_spotting">spotted keywords</a>. {' '}
+        //   Some models can <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#speaker_labels">detect multiple speakers</a>; this may slow down performance.
+        // </div>
+      }
+        {
+        // <div className="flex setup">
+        //   <div className="column">
+        //
+        //     <p>Voice Model: <ModelDropdown model={this.state.model} token={this.state.token} onChange={this.handleModelChange} /></p>
+        //
+        //     <p className={this.supportsSpeakerLabels() ? 'base--p' : 'base--p_light'}>
+        //       <input role="checkbox" className="base--checkbox" type="checkbox" checked={this.state.speakerLabels}
+        //              onChange={this.handleSpeakerLabelsChange} disabled={!this.supportsSpeakerLabels()} id="speaker-labels" />
+        //       <label className="base--inline-label" htmlFor="speaker-labels">
+        //         Detect multiple speakers {this.supportsSpeakerLabels() ? '' : ' (Not supported on current model)'}
+        //       </label>
+        //     </p>
+        //
+        //   </div>
+        //   <div className="column">
+        //
+        //     <p>Keywords to spot: <input value={this.state.keywords} onChange={this.handleKeywordsChange} type="text"
+        //                                 id="keywords"placeholder="Type comma separated keywords here (optional)" className="base--input"/></p>
+        //
+        //   </div>
+        // </div>
+      }
 
 
         <div className="flex buttons">
@@ -473,24 +547,39 @@ export default React.createClass({
         </div>
 
         {err}
+        <Transcript messages={messages}/>
+        <Table history={this.state.history}/>
+        {
 
-        <Tabs selected={0}>
-          <Pane label="Text">
-            <Transcript messages={messages}/>
-            <div>GoolgeCloud : {this.state.google}</div>
-            <div>PullString : {this.state.pullstring}</div>
-
-          </Pane>
-          <Pane label="Word Timings and Alternatives">
-            <TimingView messages={messages}/>
-          </Pane>
-          <Pane label={'Keywords ' + getKeywordsSummary(this.state.settingsAtStreamStart.keywords, messages)}>
-            <Keywords messages={messages} keywords={this.state.settingsAtStreamStart.keywords} isInProgress={!!this.state.audioSource}/>
-          </Pane>
-          <Pane label="JSON">
-            <JSONView raw={this.state.rawMessages} formatted={this.state.formattedMessages}/>
-          </Pane>
-        </Tabs>
+        // <Tabs selected={0}>
+        //   <Pane label="Text">
+        //     <Transcript messages={messages}/>
+        //     <div>GoolgeCloud : {this.state.google}</div>
+        //     <div>PullString : {this.state.pullstring}</div>
+        //
+        //   </Pane>
+        //   <Pane label="History">
+        //
+        //         <div>GoolgeCloud : {this.state.history.google}</div>
+        //         <div>PullString : {this.state.history.pullstring}</div>
+        //
+        //
+        //   </Pane>
+        //   {
+        //     // <Pane label="Word Timings and Alternatives">
+        //     //   <TimingView messages={messages}/>
+        //     // </Pane>
+        //     // <Pane label={'Keywords ' + getKeywordsSummary(this.state.settingsAtStreamStart.keywords, messages)}>
+        //     //   <Keywords messages={messages} keywords={this.state.settingsAtStreamStart.keywords} isInProgress={!!this.state.audioSource}/>
+        //     // </Pane>
+        //     // <Pane label="JSON">
+        //     //   <JSONView raw={this.state.rawMessages} formatted={this.state.formattedMessages}/>
+        //     // </Pane>
+        //
+        //   }
+        //
+        // </Tabs>
+      }
 
       </Dropzone>
     );
