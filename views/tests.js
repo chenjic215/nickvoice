@@ -12,12 +12,15 @@ import JSONView from './json-view.jsx';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
 import {Table} from './table.jsx';
+import {TestsTable} from './teststable';
+import Charts from './charts'
+// import {Gabe1} from '../cloud-client/resources/Gabe_1.wav'
 
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
 
 export default React.createClass({
-  displayName: 'Demo',
+  displayName: 'Tests',
 
   getInitialState() {
     return {
@@ -31,6 +34,7 @@ export default React.createClass({
       google: "",
       pullstring: "",
       history:[],
+      token: null,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the service and what is displayed on the demo, and could cause bugs.
       settingsAtStreamStart: {
@@ -50,9 +54,9 @@ export default React.createClass({
   },
 
   /**
-     * The behavior of several of the views depends on the settings when the transcription was started
-     * So, this stores those values in a settingsAtStreamStart object.
-     */
+  * The behavior of several of the views depends on the settings when the transcription was started
+  * So, this stores those values in a settingsAtStreamStart object.
+  */
   captureSettings() {
     this.setState({
       settingsAtStreamStart: {
@@ -80,8 +84,8 @@ export default React.createClass({
       word_alternatives_threshold: 0.01, // note: in normal usage, you'd probably set this a bit higher
       keywords: keywords,
       keywords_threshold: keywords.length
-        ? 0.01
-        : undefined, // note: in normal usage, you'd probably set this a bit higher
+      ? 0.01
+      : undefined, // note: in normal usage, you'd probably set this a bit higher
       timestamps: true, // set timestamps for each word - automatically turned on by speaker_labels
       speaker_labels: this.state.speakerLabels, // includes the speaker_labels in separate objects unless resultsBySpeaker is enabled
       resultsBySpeaker: this.state.speakerLabels, // combines speaker_labels and results together into single objects, making for easier transcript outputting
@@ -117,26 +121,21 @@ export default React.createClass({
       this.stopTranscription();
     } else {
       this.dropzone.open();
-      console.log('hi')
     }
   },
 
-  handleUserFile: function(files) {
-    // console.warn(files[0].name);
-    // console.warn(this.state.token);
-    // var payload = {
-    //   filename: files[0].name,
-    //   token: this.state.token
-    // };
-    var filename = files[0].name;
-    console.log(filename)
-    // var data = new FormData();
-    // data.append( "json", JSON.stringify( payload ) );
+  logtheconsole() {
+    return (
+      console.log(this.state.history)
+    )
+  },
+
+  annoyingFunction(filename) {
 
     fetch('/api/translation',{
       method: "GET",
       headers: {
-        filename: files[0].name,
+        filename: filename,
         token: this.state.token,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -181,16 +180,14 @@ export default React.createClass({
         pullstring: msg.pullstring,
         history: history
       });
-    	console.warn(msg);
+      console.warn(msg);
     });
 
-    const file = files[0];
-    if (!file) {
-      return;
-    }
     this.reset();
     this.setState({audioSource: 'upload'});
-    this.playFile(file);
+    //his.playFile(file);
+    this.fetchToken().then(this.playFile(`audio/${filename}`))
+    // `../cloud-client/resources/${filename}`
   },
 
   getOtherTranslation() {
@@ -221,11 +218,12 @@ export default React.createClass({
       audioSource: 'sample-' + which
     });
     this.playFile('audio/' + filename);
+
   },
 
   /**
-     * @param {File|Blob|String} file - url to an audio file or a File instance fro user-provided files
-     */
+  * @param {File|Blob|String} file - url to an audio file or a File instance fro user-provided files
+  */
   playFile(file) {
     // The recognizeFile() method is a helper method provided by the watson-speach package
     // It accepts a file input and transcribes the contents over a WebSocket connection
@@ -269,12 +267,12 @@ export default React.createClass({
 
     // grab raw messages from the debugging events for display on the JSON tab
     stream.recognizeStream
-      .on('message', (frame, json) => this.handleRawdMessage({sent: false, frame, json}))
-      .on('send-json', json => this.handleRawdMessage({sent: true, json}))
-      .once('send-data', () => this.handleRawdMessage({
-        sent: true, binary: true, data: true // discard the binary data to avoid waisting memory
-      }))
-      .on('close', (code, message) => this.handleRawdMessage({close: true, code, message}));
+    .on('message', (frame, json) => this.handleRawdMessage({sent: false, frame, json}))
+    .on('send-json', json => this.handleRawdMessage({sent: true, json}))
+    .once('send-data', () => this.handleRawdMessage({
+      sent: true, binary: true, data: true // discard the binary data to avoid waisting memory
+    }))
+    .on('close', (code, message) => this.handleRawdMessage({close: true, code, message}));
 
     // ['open','close','finish','end','error', 'pipe'].forEach(e => {
     //     stream.recognizeStream.on(e, console.log.bind(console, 'rs event: ', e));
@@ -297,11 +295,14 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.fetchToken();
+    this.fetchToken()
+    // .then(this.annoyingFunction());
+    console.log(this.state.token)
     // tokens expire after 60 minutes, so automatcally fetch a new one ever 50 minutes
     // Not sure if this will work properly if a computer goes to sleep for > 50 minutes and then wakes back up
     // react automatically binds the call to this
     this.setState({'tokenInterval' : setInterval(this.fetchToken, 50 * 60 * 1000) });
+    // this.annoyingFunction();
   },
 
   componentWillUnmount() {
@@ -315,7 +316,7 @@ export default React.createClass({
       }
       return res.text();
     }). // todo: throw here if non-200 status
-    then(token => this.setState({token})).catch(this.handleError);
+    then(token => this.setState({token})).catch(this.handleError)
   },
 
   getKeywords(model) {
@@ -399,19 +400,18 @@ export default React.createClass({
           }
 
         } else {
-            var insert = {
-              id: 0,
-              watson : final[0].results[0].alternatives[0].transcript
-            }
-            history.push(insert);
-            this.setState({
-              history: history
-            });
+          var insert = {
+            id: 0,
+            watson : final[0].results[0].alternatives[0].transcript
+          }
+          history.push(insert);
+          this.setState({
+            history: history
+          });
         }
-
-
       }
     }
+
     return final;
   },
 
@@ -440,8 +440,8 @@ export default React.createClass({
 
     const buttonsEnabled = !!this.state.token;
     const buttonClass = buttonsEnabled
-      ? 'base--button'
-      : 'base--button base--button_black';
+    ? 'base--button'
+    : 'base--button base--button_black';
 
     let micIconFill = '#000000';
     let micButtonClass = buttonClass;
@@ -453,106 +453,26 @@ export default React.createClass({
     }
 
     const err = this.state.error
-      ? (
-        <Alert type="error" color="red">
-          <p className="base--p">{this.state.error}</p>
-        </Alert>
-      )
-      : null;
+    ? (
+      <Alert type="error" color="red">
+        <p className="base--p">{this.state.error}</p>
+      </Alert>
+    )
+    : null;
 
     const messages = this.getFinalAndLatestInterimResult();
     // console.warn(messages);
     const translation = this.getOtherTranslation();
     const micBullet = (typeof window !== "undefined" && recognizeMicrophone.isSupported) ?
-        <li className="base--li">Use your microphone to record audio.</li> :
-        <li className="base--li base--p_light">Use your microphone to record audio. (Not supported in current browser)</li>;
+    <li className="base--li">Use your microphone to record audio.</li> :
+    <li className="base--li base--p_light">Use your microphone to record audio. (Not supported in current browser)</li>;
 
     return (
-      <Dropzone onDropAccepted={this.handleUserFile} onDropRejected={this.handleUserFileRejection} maxSize={200 * 1024 * 1024} accept="audio/wav, audio/l16, audio/ogg, audio/flac, .wav, .ogg, .opus, .flac" disableClick={true} className="dropzone _container _container_large" activeClassName="dropzone-active" rejectClassName="dropzone-reject" ref={(node) => {
-        this.dropzone = node;
-      }}>
-
-        <div className="drop-info-container">
-          <div className="drop-info">
-            <h1>Drop an audio file here.</h1>
-            <p>This Speech to Text supports .wav, .opus, and .flac files up to 200mb.</p>
-          </div>
+      <div>
+        <div className="dropzone _container _container_large">
+          <TestsTable/>
         </div>
-
-
-        {
-          // <h2 className="base--h2">Transcribe Audio</h2>
-          //
-          // <ul className="base--ul">
-          //     {micBullet}
-          //     <li className="base--li">Upload pre-recorded audio (.wav, .flac, or .opus only).</li>
-          //     <li className="base--li">Play one of the sample audio files.*</li>
-          // </ul>
-          //
-          // <div className="smalltext">
-          // *Both US English broadband sample audio files are covered under the Creative Commons license.
-          // </div>
-        // <div style={{
-        //   paddingRight: '3em',
-        //   paddingBottom: '2em'
-        // }}>
-        //   The returned result includes the recognized text, {' '}
-        //   <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#word_alternatives">word alternatives</a>, {' '}
-        //   and <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#keyword_spotting">spotted keywords</a>. {' '}
-        //   Some models can <a className="base--a" href="http://www.ibm.com/watson/developercloud/doc/speech-to-text/output.html#speaker_labels">detect multiple speakers</a>; this may slow down performance.
-        // </div>
-      }
-        {
-        // <div className="flex setup">
-        //   <div className="column">
-        //
-        //     <p>Voice Model: <ModelDropdown model={this.state.model} token={this.state.token} onChange={this.handleModelChange} /></p>
-        //
-        //     <p className={this.supportsSpeakerLabels() ? 'base--p' : 'base--p_light'}>
-        //       <input role="checkbox" className="base--checkbox" type="checkbox" checked={this.state.speakerLabels}
-        //              onChange={this.handleSpeakerLabelsChange} disabled={!this.supportsSpeakerLabels()} id="speaker-labels" />
-        //       <label className="base--inline-label" htmlFor="speaker-labels">
-        //         Detect multiple speakers {this.supportsSpeakerLabels() ? '' : ' (Not supported on current model)'}
-        //       </label>
-        //     </p>
-        //
-        //   </div>
-        //   <div className="column">
-        //
-        //     <p>Keywords to spot: <input value={this.state.keywords} onChange={this.handleKeywordsChange} type="text"
-        //                                 id="keywords"placeholder="Type comma separated keywords here (optional)" className="base--input"/></p>
-        //
-        //   </div>
-        // </div>
-      }
-
-
-        <div className="flex buttons">
-
-          <button className={micButtonClass} onClick={this.handleMicClick}>
-            <Icon type={this.state.audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
-          </button>
-
-          <button className={buttonClass} onClick={this.handleUploadClick}>
-            <Icon type={this.state.audioSource === 'upload' ? 'stop' : 'upload'} /> Upload Audio File
-          </button>
-
-          <button className={buttonClass} onClick={this.handleSample1Click}>
-            <Icon type={this.state.audioSource === 'sample-1' ? 'stop' : 'play'} /> Play Sample 1
-          </button>
-
-          <button className={buttonClass} onClick={this.handleSample2Click}>
-            <Icon type={this.state.audioSource === 'sample-2' ? 'stop' : 'play'} /> Play Sample 2
-          </button>
-
-        </div>
-
-        {err}
-        <Transcript messages={messages}/>
-        <Table history={this.state.history}/>
-
-
-      </Dropzone>
+      </div>
     );
   }
 });
