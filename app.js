@@ -40,7 +40,6 @@ var PythonShell = require('python-shell');
 
 app.get('/', function(req, res) {
 
-
   res.render('index', {
     BLUEMIX_ANALYTICS: process.env.BLUEMIX_ANALYTICS,
   });

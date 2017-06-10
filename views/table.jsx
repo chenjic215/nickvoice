@@ -41,6 +41,8 @@ export function Table(props) {
         <td>
           { props.data.pullstring}
         </td>
+
+        <td><form><input type="text" name="hi"/></form></td>
       </tr>
     );
   }
@@ -49,7 +51,7 @@ export function Table(props) {
     let title = (
       <tr>
         <td>
-          Id
+          id
         </td>
         <td>
           File Name
@@ -66,6 +68,7 @@ export function Table(props) {
         <td>
           PullString
         </td>
+        <td>What does the audio clip actually say?</td>
       </tr>
     )
     let rows = props.history.map(item => {

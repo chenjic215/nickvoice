@@ -5,6 +5,13 @@
 
 .tab-panels--tab-content {
     min-height: 250px;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.table-titles {
+  font-weight: bold;
 }
 
 .arrow-box-container {
@@ -23,8 +30,13 @@ dialog, dd, dt {
     border: 0;
     padding: 0;
 }
+body {
+  margin-top: 0;
+}
 
-
+.special {
+  border: none;
+}
 
 /* drag-drop styles */
 ._container {
