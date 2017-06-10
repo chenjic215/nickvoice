@@ -41,6 +41,7 @@ export function Table(props) {
         <td>
           { props.data.pullstring}
         </td>
+
         <td><form><input type="text" name="hi"/></form></td>
       </tr>
     );

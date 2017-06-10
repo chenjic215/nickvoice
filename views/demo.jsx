@@ -129,6 +129,7 @@ export default React.createClass({
     //   token: this.state.token
     // };
     var filename = files[0].name;
+
     console.log(filename)
     // var data = new FormData();
     // data.append( "json", JSON.stringify( payload ) );

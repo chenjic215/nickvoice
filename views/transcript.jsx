@@ -14,6 +14,9 @@ export function Transcript(props) {
 
   try {
 
+
+
+
     const results = props.messages.map(msg => {
       // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
       // The result_index is for the first result in the message, so we need to count up from there to calculate the key.
