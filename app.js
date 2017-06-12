@@ -47,6 +47,10 @@ app.get('/', function(req, res) {
 
 app.get('/api/translation', function (req, res) {
     console.warn("File name received: "+req.headers.filename);
+    //var tempPath = req.headers.preview;
+    //var tempPath = URL.createObjectURL(req.headers.preview);
+
+    //console.warn("File received: "+req.headers.files);
 
     var options = {
       // mode: 'text',
@@ -54,6 +58,7 @@ app.get('/api/translation', function (req, res) {
       // pythonOptions: ['-u'],
       // scriptPath: 'path/to/my/scripts',
       args: [req.headers.filename]
+      //args: [tempPath]
     };
 
     PythonShell.run('./cloud-client/quickstart.py',options, function (err, transcript) {
@@ -68,8 +73,10 @@ app.get('/api/translation', function (req, res) {
         // pythonOptions: ['-u'],
         // scriptPath: 'path/to/my/scripts',
         args: ["9fd2a189-3d57-4c02-8a55-5f0159bff2cf","e50b56df-95b7-4fa1-9061-83a7a9bea372",req.headers.filename]
+        //args: ["9fd2a189-3d57-4c02-8a55-5f0159bff2cf","e50b56df-95b7-4fa1-9061-83a7a9bea372",tempPath]
       };
 
+      //PythonShell.run('./examples/audio_client.py', options, function (err, transcript) {
       PythonShell.run('./pullstring-python/examples/audio_client.py', options, function (err, transcript) {
         if (err) throw err;
         console.warn("pullstring: "+ transcript[1]);

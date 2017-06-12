@@ -129,15 +129,22 @@ export default React.createClass({
     //   token: this.state.token
     // };
     var filename = files[0].name;
-
-    console.log(filename)
+    //console.log(files[0].preview);
+    //URL.createObjectURL
+    //var binaryData = [];
+    //binaryData.push(files[0].preview);
+    //var path = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/wav"}));
+    //var path = window.URL.createObjectURL(binaryData);
+    //console.log(path);
     // var data = new FormData();
     // data.append( "json", JSON.stringify( payload ) );
 
     fetch('/api/translation',{
       method: "GET",
       headers: {
+        files: files,
         filename: files[0].name,
+        preview: files[0].preview,
         token: this.state.token,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -210,19 +217,94 @@ export default React.createClass({
   },
 
   handleSampleClick(which) {
-    if (this.state.audioSource === 'sample-' + which) {
-      return this.stopTranscription();
+
+    // if (this.state.audioSource === 'sample-' + which) {
+    //   return this.stopTranscription();
+    // }
+    let filename = "Josie_1.wav";
+    //let filename = samples[this.state.model] && samples[this.state.model][which - 1].filename;
+    if (which == 1) {
+      filename = "Jordan_2.wav";
     }
-    let filename = samples[this.state.model] && samples[this.state.model][which - 1].filename;
+
+
     if (!filename) {
       return this.handleError(`No sample ${which} available for model ${this.state.model}`, samples[this.state.model]);
     }
-    this.reset();
-    this.setState({
-      audioSource: 'sample-' + which
+    // this.reset();
+    // this.setState({
+    //   audioSource: 'sample-' + which
+    // });
+    //this.playSampleFile('audio/' + filename);
+    this.playSampleFile(filename);
+  },
+
+  playSampleFile(filename) {
+
+    //var filename = files[0].name;
+
+    fetch('/api/translation',{
+      method: "GET",
+      headers: {
+        //files: files,
+        filename: filename,
+        //preview: files[0].preview,
+        token: this.state.token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    }).then(res => {
+
+      if (res.status != 200) {
+        throw new Error('Error retrieving auth token');
+      }
+
+      return res.json();
+    }).then( msg => {
+
+      var currentTranslate =  {
+        filename: filename,
+        type: "User upload",
+        google: msg.google,
+        pullstring: msg.pullstring
+      };
+
+      var history = this.state.history;
+
+      if (history.length > 0) {
+        if (history[history.length-1].filename) {
+          //add a new block
+          currentTranslate.id = history.length;
+          history.push(currentTranslate);
+        } else {
+          //edit the last block
+          currentTranslate.id = history[history.length-1].id;
+          currentTranslate.watson = history[history.length-1].watson;
+          history[history.length-1] = currentTranslate;
+        }
+      } else {
+        //add a new block at [0]
+        currentTranslate.id = 0;
+        history.push(currentTranslate);
+      }
+
+      this.setState({
+        google: msg.google,
+        pullstring: msg.pullstring,
+        history: history
+      });
+      console.warn(msg);
     });
+
+    // const file = files[0];
+    // if (!file) {
+    //   return;
+    // }
+    this.reset();
+    this.setState({audioSource: 'upload'});
     this.playFile('audio/' + filename);
   },
+
 
   /**
      * @param {File|Blob|String} file - url to an audio file or a File instance fro user-provided files
@@ -239,7 +321,6 @@ export default React.createClass({
     //  * outputs the text to a DOM element - not used in this demo because it doesn't play nice with react (options.outputElement)
     //  * a few other things for backwards compatibility and sane defaults
     // In addition to this, it passes other service-level options along to the RecognizeStream that manages the actual WebSocket connection.
-
 
     this.handleStream(recognizeFile(this.getRecognizeOptions({
       file: file, play: true, // play the audio out loud
@@ -384,9 +465,9 @@ export default React.createClass({
     if (interim) {
       final.push(interim);
     }
+
     if (final[0]) {
       if (final[0].results[0].final) {
-
         var history = this.state.history;
 
         if(history.length > 0) {

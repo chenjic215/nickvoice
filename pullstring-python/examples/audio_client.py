@@ -37,6 +37,7 @@ class AudioClient(object):
         while True:
             #return "./pullstring-python/examples/Josie_3.wav"
             filepath = "./pullstring-python/examples/" + self.file_name
+            #filepath = self.file_name
             return filepath
         # while True:
         #     prompt = "[y/n]> "

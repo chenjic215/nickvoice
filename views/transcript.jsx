@@ -26,7 +26,7 @@ export function Transcript(props) {
     }).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
     return (
       <div>
-        Live Capture : {results}
+        (Watson) Live Capture : {results}
       </div>
     );
   } catch (ex) {

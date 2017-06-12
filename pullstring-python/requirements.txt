@@ -1,1 +1,1 @@
-# no requirements
+pullstring-python==1.0.1

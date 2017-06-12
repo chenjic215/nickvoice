@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "curious-course-168420",
+  "private_key_id": "1274b7a67a220d5a6fa0659ebfd7091f98fcc8dc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/uOnbnIVPjmyA\ntVJGILr63/T5fqPz4UpwwGLQvztwSRQ/E+jTxtTGWDv1H8KVTjQAjS51lYN9vVQp\nqzmuUtyp0ctqh6H2GxA19OZOGRKIIM6WRD9oMZYQbJkE/GY6yVl3zh/aBe3Smdd3\nqKbTq/Of3J1vITOvUMy06HydC8lTTsucEaOVKwNJm4GKQqFKGE24CisqZX20NfG9\nlUp8nC8Wj5MvqEpn9TACIZsN6wVmo1up6I9P8VQXRa2rUsZkbIDMnW0e8Yv61lvp\nHPBOT9IAnxa1Vvz9zPO5qTcFDXmMoocgAg1N86fcUrQg7F5YkJ9aazOgWvNPT9y0\n61/KLGRdAgMBAAECggEACqihm7t+b9dXseoiulJcgtELoglH3SmjxVP0ym0vRUVS\n0lTth0SRFLvYDX8oBrvzySoQMKpQxp9NfAmQaeAic3B98hy7RN7pTk6gtSvQq2/D\nfHgr3EORd7VJ5oyPtGn4RuBXRfw5ZhF2eKkQKUlwgG039XMvl+oSj2Yzc1mx5ics\n8E/fQ2ERANqtxQSXHcL6uosebYqOZ5Pt3gJ+StHCPW0km5tuZe3K0Ttrw31BWzEi\nwtN4KYQfWP/Un/R2UTNGi3h0GbrDRbb3HBacmGgfpGjf/niXIyrmpA1SZq/s121l\nk88c/wUEWlLdomG1iEc8JVpObjonZGuGsLxlyOpu4wKBgQD9dgSEhMUKXvdet9nR\nlvrNibypoBX6IvFcYHfr29qYTtl4GhkG3Muy5dBmcVscR6OEfBO9U7uMstQiohvd\n/Gtu9Q63iWySXO5+TezYgIRgvRH9wLeXc96WQNwhcGp603ARpeBYv6K+pQDLG5Ng\nautGaxTrBFur6XehGhS/562hmwKBgQDBpJJMQpPTnOsgj0ioMAjYJb3Sb5O1BcYv\njue9Ccti6ebvgQ7TB1ZDdXaM1Ps2M8wqgzf+/TV45qltin2bhzGsgbt/FTr9Kqi/\nWsbuzf13MtzaC/GYfu6x3CeD0jvQJmceuVqqmsBkC6L+4+D0g5oBYdUfOP3vfqcl\noSfhl8qNZwKBgC+wg/sXLCfeZHbq6s33tWr07o2P9HKjHny+HfI/5Kphs6NYbbsP\n0jfv671KuNTiWc70tZYa6h/4CdgWXl3vP5uZ+lHoRohneexD5zt5Ou8kw/zVxPV3\nNLtaqtCT4UUJAX4gkszACfQLAdI1dw5eL7SJM19g64q2G+8xBBRzmATfAoGAWDsJ\nIdAwFPpps+M1YtTIItxHemu2bIPeAmtlsZ+V2VLkE3rFa2fraT9LLe4ZLGA7hZ9W\nU0vCIn1O84dnpgbanlRaPxRIVXQrgUz2WXboJ3i4Ym2QvkAPuGCsbIbNFBF7aOdh\npVxvjuYydVsVc7PG5xxRhDFumsIlnKKqTkLgWr8CgYEAyMfWavJGKENhV0plWJ8a\nR1NEaI6byTj6jV8Lm8lB4lgONol92fxV1kL3jm0P43oEV/luA0JevbD2omRVssyd\nfu7YdESM3ZF5doyfV4aIyflbPZ19uKveqihrCoArGggHuMrSQjgKga1GbjAoc2Lb\nHzsv9X/cjTsSblMAnB6hWYw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "nickvoice@curious-course-168420.iam.gserviceaccount.com",
+  "client_id": "112925576329346580187",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/nickvoice%40curious-course-168420.iam.gserviceaccount.com"
+}
