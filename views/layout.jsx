@@ -21,6 +21,7 @@ export default function Layout(props) {
         <meta name="segment" property="watson-demos" value="speech-to-text-demo" />
         <script src={props.bluemixAnalytics} />
         {/* Bluemix Analytics  - end*/}
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet"/>
       </head>
       <body>
 
@@ -43,7 +44,7 @@ export default function Layout(props) {
         // />
 
         // <Footer/>
-        // 
+        //
     }
         <div id="root">
           {props.children}
