@@ -25,7 +25,7 @@ export function Transcript(props) {
       ));
     }).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
     return (
-      <div>
+      <div style={{color: '#000021'}}>
         (Watson) Live Capture : {results}
       </div>
     );

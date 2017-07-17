@@ -27,7 +27,7 @@ class Charts extends React.Component{
         <div style={{position: 'absolute', height: '80%', width: '100%'}}>
           <div style={{display: 'block', textAlign: 'center', height: '100%', width: '100%', 'paddingRight': '6%'}}>
             <div style={{display: 'inline-block', textAlign: 'center', height: '50%', width: '40%', minHeight: '500px', }}>
-              <div style = {{paddingLeft: 80, fontFamily: 'Helvetica'}}>Accuracy for Adults</div>
+              <div style = {{paddingLeft: 80}}>Accuracy for Adults</div>
               <ResponsiveContainer>
                 <BarChart width={730} height={250} data={mixed}>
                   <XAxis dataKey="name" />

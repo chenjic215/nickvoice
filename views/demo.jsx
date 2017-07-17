@@ -98,7 +98,9 @@ export default React.createClass({
     if (this.state.audioSource === 'mic') {
       return this.stopTranscription();
     }
+    console.log(this.state.history)
     this.reset();
+    console.log(this.state.history)
     this.setState({audioSource: 'mic'});
 
     // The recognizeMicrophone() method is a helper method provided by the watson-speach package
@@ -122,22 +124,8 @@ export default React.createClass({
   },
 
   handleUserFile: function(files) {
-    // console.warn(files[0].name);
-    // console.warn(this.state.token);
-    // var payload = {
-    //   filename: files[0].name,
-    //   token: this.state.token
-    // };
+
     var filename = files[0].name;
-    //console.log(files[0].preview);
-    //URL.createObjectURL
-    //var binaryData = [];
-    //binaryData.push(files[0].preview);
-    //var path = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/wav"}));
-    //var path = window.URL.createObjectURL(binaryData);
-    //console.log(path);
-    // var data = new FormData();
-    // data.append( "json", JSON.stringify( payload ) );
 
     fetch('/api/translation',{
       method: "GET",

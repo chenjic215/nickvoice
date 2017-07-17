@@ -179,18 +179,18 @@ export function TestsTable(props) {
         <Tabs selected={0}>
 
           <Pane label="Audio 1">
-            <table><tbody>{KidTitles}{KidRows1}</tbody></table>
-            <table><tbody>{AdultTitles}{AdultRows1}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows1}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows1}</tbody></table>
           </Pane>
 
           <Pane label="Audio 2">
-            <table><tbody>{KidTitles}{KidRows2}</tbody></table>
-            <table><tbody>{AdultTitles}{AdultRows2}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows2}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows2}</tbody></table>
           </Pane>
 
           <Pane label="Audio 3">
-            <table><tbody>{KidTitles}{KidRows3}</tbody></table>
-            <table><tbody>{AdultTitles}{AdultRows3}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows3}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows3}</tbody></table>
           </Pane>
 
         </Tabs>
