@@ -10,6 +10,7 @@ export default function Layout(props) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+        {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/> */}
         <link rel="stylesheet" href="/css/watson-react-components.min.css"/>
         <link rel="stylesheet" href="/css/style.css"/>
         <script type="text/javascript" src="scripts/bundle.js" defer async></script>
@@ -18,6 +19,7 @@ export default function Layout(props) {
         <script type="text/javascript">{`
           window._analytics = { coremetrics: false, optimizely: false, addRoll: false };
         `}</script>
+        <script src="JavaScript/bootstrap-min.js" />
         <meta name="segment" property="watson-demos" value="speech-to-text-demo" />
         <script src={props.bluemixAnalytics} />
         {/* Bluemix Analytics  - end*/}

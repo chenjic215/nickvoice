@@ -5,6 +5,7 @@ import Demo from './demo.jsx'
 import Charts from './charts'
 import Radium from 'radium'
 import Logo from './Logo.jsx'
+import { ResponsiveContainer} from 'recharts';
 
 const styles = {
   blueberry: {
@@ -40,7 +41,9 @@ class Navigation extends React.Component {
 
           <Pane label="Charts">
             <div style={{paddingTop: 50}}>
-              <Charts/>
+                <ResponsiveContainer height='100%' width='100%'>
+                    <Charts/>
+                </ResponsiveContainer>
             </div>
           </Pane>
 

@@ -70,6 +70,22 @@ body {
 .base--checkbox + label, .base--radio + label, .prism {
     position: static;
 }
+.base--radio:checked+.buttons-group--button {
+    background-color: #000021;
+    color: #fff;
+    border-color: grey;
+}
+.base--radio:active+.buttons-group--button {
+    background-color: #000021;
+    color: #fff;
+    border-color: #000021;
+}
+.base--radio:hover+.buttons-group--button {
+    border-color: grey;
+    color: lightgrey
+    /*color: inherit;*/
+}
+
 .drop-info-container {
     position: absolute;
     display: none;
