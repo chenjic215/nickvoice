@@ -69,7 +69,10 @@ export function Table(props) {
       </tr>
     )
     let rows = props.history.map(item => {
-      return <PersonRow key = {item.id} data = {item}/>
+      // if (item.google && item.pullstring && item.watson) {
+        return <PersonRow key = {item.id} data = {item}/>
+      // }
+
     })
 
     return <table style={{color: '#000021'}}> < tbody > {title} {rows} < /tbody> < /table>

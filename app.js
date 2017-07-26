@@ -18,6 +18,9 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 const watson = require('watson-developer-cloud');
+var fs = require('fs');
+var url = require('url');
+var path = require('path');
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -37,6 +40,8 @@ const stt = new watson.SpeechToTextV1({
 
 const authService = new watson.AuthorizationV1(stt.getCredentials());
 var PythonShell = require('python-shell');
+
+var FILENAME = "";
 
 app.get('/', function(req, res) {
 
@@ -105,5 +110,142 @@ app.get('/api/token', function(req, res, next) {
     }
   });
 });
+
+function superFunction(a) {
+  return FILENAME;
+}
+
+app.post('/uploadFile', function(request,response) {
+
+  var uri = url.parse(request.url).pathname,
+        filename = path.join(process.cwd(), uri);
+
+  var isWin = !!process.platform.match(/^win/);
+
+  if (filename && filename.toString().indexOf(isWin ? '\\uploadFile' : '/uploadFile') != -1 && request.method.toLowerCase() == 'post') {
+        //var a = uploadFileFunction(request, response);
+
+
+        //console.warn("name: "+ );
+        //return uploadFileFunction(request, response);
+        return superFunction(uploadFileFunction(request, response));
+  }
+
+  fs.exists(filename, function(exists) {
+      if (!exists) {
+          response.writeHead(404, {
+              'Content-Type': 'text/plain'
+          });
+          response.write('404 Not Found: ' + filename + '\n');
+          response.end();
+          return;
+      }
+
+      if (filename.indexOf('favicon.ico') !== -1) {
+          return;
+      }
+
+      if (fs.statSync(filename).isDirectory() && !isWin) {
+          filename += '/index.html';
+      } else if (fs.statSync(filename).isDirectory() && !!isWin) {
+          filename += '\\index.html';
+      }
+
+      fs.readFile(filename, 'binary', function(err, file) {
+          if (err) {
+              response.writeHead(500, {
+                  'Content-Type': 'text/plain'
+              });
+              response.write(err + '\n');
+              response.end();
+              return;
+          }
+
+          var contentType;
+
+          if (filename.indexOf('.html') !== -1) {
+              contentType = 'text/html';
+          }
+
+          if (filename.indexOf('.js') !== -1) {
+              contentType = 'application/javascript';
+          }
+
+          if (contentType) {
+              response.writeHead(200, {
+                  'Content-Type': contentType
+              });
+          } else response.writeHead(200);
+
+          response.write(file, 'binary');
+          response.end();
+      });
+  });
+
+})
+
+function uploadFileFunction(request, response) {
+  // parse a file upload
+  var mime = require('mime');
+  var formidable = require('formidable');
+  var util = require('util');
+
+  var form = new formidable.IncomingForm();
+
+  var dir = !!process.platform.match(/^win/) ? '\\public\\audio\\' : '/public/audio/';
+
+  form.uploadDir = __dirname + dir;
+  form.keepExtensions = true;
+  form.maxFieldsSize = 10 * 1024 * 1024;
+  form.maxFields = 1000;
+  form.multiples = false;
+
+  return form.parse(request, function(err, fields, files) {
+      var file = util.inspect(files);
+
+      response.writeHead(200, getHeaders('Content-Type', 'application/json'));
+
+      var fileName = file.split('path:')[1].split('\',')[0].split(dir)[1].toString().replace(/\\/g, '').replace(/\//g, '');
+
+      FILENAME = fileName;
+
+      var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+      appAddress = process.env.IP || "0.0.0.0";
+      if (appAddress == '0.0.0.0') {
+          appAddress = 'localhost';
+      }
+
+      var fileURL = 'http://' + appAddress + ':' + port + '/public/audio/' + fileName;
+
+      console.log('fileURL: ', fileURL);
+      response.write(JSON.stringify({
+          fileURL: fileURL,
+          fileName: fileName
+      }));
+      response.end();
+  });
+
+
+}
+
+function getHeaders(opt, val) {
+    try {
+        var headers = {};
+        headers["Access-Control-Allow-Origin"] = "https://secure.seedocnow.com";
+        headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+        headers["Access-Control-Allow-Credentials"] = true;
+        headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+        headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+
+        if (opt) {
+            headers[opt] = val;
+        }
+
+        return headers;
+    } catch (e) {
+        return {};
+    }
+}
+
 
 module.exports = app;

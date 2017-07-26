@@ -15,6 +15,13 @@ import {Table} from './table.jsx';
 
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
+var recorder;
+
+var watsonExtraCounter = 1;
+
+var superCounter = 0;
+
+var mediaStream = null;
 
 export default React.createClass({
   displayName: 'Demo',
@@ -27,10 +34,18 @@ export default React.createClass({
       audioSource: null,
       speakerLabels: false,
       keywords: this.getKeywords('en-US_BroadbandModel'),
-      watson: "",
-      google: "",
-      pullstring: "",
+      watson: null,
+      google: null,
+      pullstring: null,
+      watsonArray: [],
+      googleArray: [],
+      pullstringArray: [],
+
+      watsonCounter: 0,
+      googlePullStringCounter: 0,
+
       history:[],
+      record: false,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the service and what is displayed on the demo, and could cause bugs.
       settingsAtStreamStart: {
@@ -74,8 +89,9 @@ export default React.createClass({
       token: this.state.token, smart_formatting: true, // formats phone numbers, currency, etc. (server-side)
       format: true, // adds capitals, periods, and a few other things (client-side)
       model: this.state.model,
+      inactivity_timeout: -1,
       objectMode: true,
-      interim_results: true,
+      interim_results: false,
       continuous: true,
       word_alternatives_threshold: 0.01, // note: in normal usage, you'd probably set this a bit higher
       keywords: keywords,
@@ -93,25 +109,50 @@ export default React.createClass({
     model = model || this.state.model;
     return model.indexOf('Narrowband') !== -1;
   },
+  /*Original handleMicClick*/
+  // handleMicClick() {
+  //   if (this.state.audioSource === 'mic') {
+  //     return this.stopTranscription();
+  //   }
+  //   this.reset();
+  //   this.setState({audioSource: 'mic'});
+  //
+  //   // The recognizeMicrophone() method is a helper method provided by the watson-speach package
+  //   // It sets up the microphone, converts and downsamples the audio, and then transcribes it over a WebSocket connection
+  //   // It also provides a number of optional features, some of which are enabled by default:
+  //   //  * enables object mode by default (options.objectMode)
+  //   //  * formats results (Capitals, periods, etc.) (options.format)
+  //   //  * outputs the text to a DOM element - not used in this demo because it doesn't play nice with react (options.outputElement)
+  //   //  * a few other things for backwards compatibility and sane defaults
+  //   // In addition to this, it passes other service-level options along to the RecognizeStream that manages the actual WebSocket connection.
+  //   this.handleStream(recognizeMicrophone(this.getRecognizeOptions()));
+  // },
 
   handleMicClick() {
-    if (this.state.audioSource === 'mic') {
-      return this.stopTranscription();
-    }
-    console.log(this.state.history)
-    this.reset();
-    console.log(this.state.history)
-    this.setState({audioSource: 'mic'});
+     if (this.state.audioSource === 'mic') {
+      this.setState({audioSource: null});
+      //stop the recording and quit
+      console.warn("try to stop");
 
-    // The recognizeMicrophone() method is a helper method provided by the watson-speach package
-    // It sets up the microphone, converts and downsamples the audio, and then transcribes it over a WebSocket connection
-    // It also provides a number of optional features, some of which are enabled by default:
-    //  * enables object mode by default (options.objectMode)
-    //  * formats results (Capitals, periods, etc.) (options.format)
-    //  * outputs the text to a DOM element - not used in this demo because it doesn't play nice with react (options.outputElement)
-    //  * a few other things for backwards compatibility and sane defaults
-    // In addition to this, it passes other service-level options along to the RecognizeStream that manages the actual WebSocket connection.
-    this.handleStream(recognizeMicrophone(this.getRecognizeOptions()));
+      this.props.stopRecording();
+
+      if (!this.props.userLastRecorded_fileName && !this.props.updated) {
+        setTimeout(function (){
+          //var files = [{name: this.props.userLastRecorded_fileName}];
+          this.playSampleFile(this.props.userLastRecorded_fileName, "User Record");
+        }.bind(this), 2000);
+      }
+
+
+      //return this.stopTranscription();
+    } else {
+      this.reset();
+      this.setState({audioSource: 'mic'});
+
+      //start the recording
+      this.props.startRecording();
+
+    }
   },
 
   handleUploadClick() {
@@ -119,11 +160,17 @@ export default React.createClass({
       this.stopTranscription();
     } else {
       this.dropzone.open();
-      console.log('hi')
+      //console.log('hi')
     }
   },
 
   handleUserFile: function(files) {
+
+    // this.setState({
+    //   watson: null,
+    //   google: null,
+    //   pullstring: null,
+    // });
 
     var filename = files[0].name;
 
@@ -154,36 +201,55 @@ export default React.createClass({
       };
 
       var history = this.state.history;
+      // if (this.state.watson) {
 
-      if (history.length > 0) {
-        if (history[history.length-1].filename) {
-          //add a new block
-          currentTranslate.id = history.length;
-          history.push(currentTranslate);
+        // if (history.length > 0) {
+        //   if (history[history.length-1].filename) {
+        //     //add a new block
+        //     currentTranslate.id = history.length;
+        //     history.push(currentTranslate);
+        //   } else {
+        //     //edit the last block
+        //     currentTranslate.id = history[history.length-1].id;
+        //     currentTranslate.watson = history[history.length-1].watson;
+        //     history[history.length-1] = currentTranslate;
+        //   }
+        // } else {
+        //   //add a new block at [0]
+        //   currentTranslate.id = 0;
+        //   history.push(currentTranslate);
+        // }
+
+        if (history[this.state.googlePullStringCounter]) {
+          //edit
+          //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
+          history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
+          history[this.state.googlePullStringCounter].type = currentTranslate.type;
+          history[this.state.googlePullStringCounter].google = currentTranslate.google;
+          history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
         } else {
-          //edit the last block
-          currentTranslate.id = history[history.length-1].id;
-          currentTranslate.watson = history[history.length-1].watson;
-          history[history.length-1] = currentTranslate;
+          //add a new block at [0]
+          currentTranslate.id = this.state.googlePullStringCounter;
+          history.push(currentTranslate);
         }
-      } else {
-        //add a new block at [0]
-        currentTranslate.id = 0;
-        history.push(currentTranslate);
-      }
 
+      // }
+
+      var counter = this.state.googlePullStringCounter + 1;
       this.setState({
         google: msg.google,
         pullstring: msg.pullstring,
-        history: history
+        history: history,
+        googlePullStringCounter: counter
       });
-    	console.warn(msg);
+    	//console.warn(msg);
     });
 
     const file = files[0];
     if (!file) {
       return;
     }
+
     this.reset();
     this.setState({audioSource: 'upload'});
     this.playFile(file);
@@ -214,7 +280,9 @@ export default React.createClass({
     if (which == 1) {
       filename = "Jordan_2.wav";
     }
-
+    /*
+    var nameBook = ["Jordan_1.wav","Jordan_2.wav","Jordan_3.wav","Josie_1.wav","Josie_2.wav","Josie_3.wav","MaleNonUS-Anonymous_54_#1.wav","MaleNonUS-Anonymous_54_#2.wav","MaleNonUS-Anonymous_54_#3.wav","MaleNonUS-Devendra_62_1.wav","MaleNonUS-Devendra_62_2.wav","MaleNonUS-Devendra_62_3.wav","MaleNonUS-Gabo_54_1.wav","MaleNonUS-Gabo_54_2.wav","MaleNonUS-Gabo_54_3.wav","MaleNonUS-Nelson_45_#1.wav","MaleNonUS-Nelson_45_#2.wav","MaleNonUS-Nelson_45_3.wav","MaleNonUS-Querol_59_1.wav","MaleNonUS-Querol_59_2.wav","MaleNonUS-Querol_59_3.wav","MaleNonUS-Shaival-31-1.wav","MaleNonUS-Shaival-31-2.wav","MaleNonUS-Shaival-31-3.wav","MaleUS-Aashay_25_#1-2.wav","MaleUS-Aashay_25_#2-2.wav","MaleUS-Aashay_25_#3-2.wav","MaleUS-Adi_24_#1-2.wav","MaleUS-Adi_24_#2-2.wav","MaleUS-Adi_24_#3-2.wav","MaleUS-Alex Leppert_22_#ArtificalIntelligence-2.wav","MaleUS-Alex Leppert_22_#TheQuickBrownFox-1-2.wav","MaleUS-Alex Leppert_22_#ThoughChristinePrefers-2.wav","MaleUS-Ali_23_1-2.wav","MaleUS-Ali_23_2-2.wav","MaleUS-Ali_23_3-2.wav","MaleUS-Anil Gupta_48_#1-2.wav","MaleUS-Anil Gupta_48_#2-1-2.wav","MaleUS-Anil Gupta_48_#3-2.wav","MaleUS-Anonymous_43#1-2.wav","MaleUS-Anonymous_43#2-2.wav","MaleUS-Anonymous_43#3-2.wav","MaleUS-Anonymous_44_#1-2.wav","MaleUS-Anonymous_44_#2-2.wav","MaleUS-Anonymous_44_#3-2.wav","MaleUS-Anonymous_45_#1-2.wav","MaleUS-Anonymous_45_#2-2.wav","MaleUS-Anonymous_45_#3-2.wav","MaleUS-Eshan_18_#1-2.wav","MaleUS-Eshan_18_#2-2.wav","MaleUS-Eshan_18_#3-2.wav","MaleUS-Jordan_5_1.wav","MaleUS-Jordan_5_2.wav","MaleUS-Jordan_5_3.wav","MaleUS-Neel_29_1-2.wav","MaleUS-Neel_29_2-2.wav","MaleUS-Neel_29_3-2.wav","MaleUS-Xavier_23_1-2.wav","MaleUS-Xavier_23_2-2.wav","MaleUS-Xavier_23_3-2.wav"];
+    */
 
     if (!filename) {
       return this.handleError(`No sample ${which} available for model ${this.state.model}`, samples[this.state.model]);
@@ -224,10 +292,25 @@ export default React.createClass({
     //   audioSource: 'sample-' + which
     // });
     //this.playSampleFile('audio/' + filename);
-    this.playSampleFile(filename);
+
+    //this.myLoop(nameBook);
+
+    this.playSampleFile(filename, "Play Sample");
   },
 
-  playSampleFile(filename) {
+  //function for bathc processing
+   myLoop (nameBook) {           //  create a loop function
+     console.warn(this.state.history);
+     setTimeout(function () {    //  call a 3s setTimeout when the loop is called
+        this.playSampleFile(nameBook[superCounter], "Play Sample");
+        superCounter++;                     //  increment the counter
+        if (superCounter < nameBook.length) {            //  if the counter < 10, call the loop function
+           this.myLoop(nameBook);             //  ..  again which will trigger another
+        }                        //  ..  setTimeout()
+     }.bind(this), 20000) //add a delay between each.
+  },
+
+  playSampleFile(filename, type) {
 
     //var filename = files[0].name;
 
@@ -249,10 +332,13 @@ export default React.createClass({
 
       return res.json();
     }).then( msg => {
-
+      var nameOfTheFile = filename;
+      if (type == "User Record") {
+        nameOfTheFile = "UserMic"
+      }
       var currentTranslate =  {
-        filename: filename,
-        type: "User upload",
+        filename: nameOfTheFile,
+        type: type,
         google: msg.google,
         pullstring: msg.pullstring
       };
@@ -290,7 +376,7 @@ export default React.createClass({
     // }
     this.reset();
     this.setState({audioSource: 'upload'});
-    this.playFile('audio/' + filename);
+    //this.playFile('audio/' + filename);
   },
 
 
@@ -311,8 +397,8 @@ export default React.createClass({
     // In addition to this, it passes other service-level options along to the RecognizeStream that manages the actual WebSocket connection.
 
     this.handleStream(recognizeFile(this.getRecognizeOptions({
-      file: file, play: true, // play the audio out loud
-      realtime: true, // use a helper stream to slow down the transcript output to match the audio speed
+      file: file, play: false, // play the audio out loud
+      realtime: false, // use a helper stream to slow down the transcript output to match the audio speed
     })));
   },
 
@@ -456,28 +542,90 @@ export default React.createClass({
 
     if (final[0]) {
       if (final[0].results[0].final) {
-        var history = this.state.history;
 
-        if(history.length > 0) {
+          if (watsonExtraCounter % 5 === 0) {
 
-          if (!history[history.length-1].watson) {
-            //edit the block
-            history[history.length-1].watson = final[0].results[0].alternatives[0].transcript;
+            var transcript = "";
+
+            for (var i =0; i< final[0].results.length; i++) {
+              transcript = transcript + final[0].results[i].alternatives[0].transcript;
+            }
+
+            var history = this.state.history;
+
+            if (history[this.state.watsonCounter]) {
+              history[this.state.watsonCounter].watson = transcript;
+            } else {
+              var insert = {
+                id: this.state.watsonCounter,
+                watson : transcript
+              }
+              history.push(insert);
+            }
+
+            var counter = this.state.watsonCounter + 1;
             this.setState({
-              history: history
+              watson : transcript,
+              history: history,
+              watsonCounter: counter
             });
+
+
+
+            watsonExtraCounter++;
+          } else {
+            watsonExtraCounter++;
           }
 
-        } else {
-            var insert = {
-              id: 0,
-              watson : final[0].results[0].alternatives[0].transcript
-            }
-            history.push(insert);
-            this.setState({
-              history: history
-            });
-        }
+
+        // var transcript = "";
+        // for (var i =0; i< final[0].results.length; i++) {
+        //   transcript = transcript + final[0].results[i].alternatives[0].transcript;
+        // }
+        //
+        // var history = this.state.history;
+        //
+        //   if(history.length > 0) {
+        //
+        //     if (!history[history.length-1].watson) {
+        //       //edit the block
+        //
+        //       history[history.length-1].watson = transcript;
+        //       this.setState({
+        //         history: history
+        //       });
+        //     } else {
+        //       // this.setState({
+        //       //   watson : transcript
+        //       // });
+        //       //
+        //       // var insert = {
+        //       //   id: 0,
+        //       //   watson : transcript
+        //       // }
+        //       // history.push(insert);
+        //       // this.setState({
+        //       //   history: history
+        //       // });
+        //     }
+        //
+        //   } else {
+        //     this.setState({
+        //       watson : transcript
+        //     });
+        //
+        //     var insert = {
+        //       id: 0,
+        //       watson : transcript
+        //     }
+        //     history.push(insert);
+        //     this.setState({
+        //       history: history
+        //     });
+        //   }
+
+
+
 
 
       }
@@ -596,9 +744,7 @@ export default React.createClass({
         // </div>
       }
 
-
         <div className="flex buttons">
-
           <button className={micButtonClass} onClick={this.handleMicClick}>
             <Icon type={this.state.audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
@@ -617,8 +763,10 @@ export default React.createClass({
 
         </div>
 
+
+
         {err}
-        <Transcript messages={messages}/>
+
         <Table history={this.state.history}/>
 
 

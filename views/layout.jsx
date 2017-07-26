@@ -25,7 +25,7 @@ export default function Layout(props) {
         {/* Bluemix Analytics  - end*/}
         <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet"/>
       </head>
-      <body>
+      <body>                
 
       {
         // <Header

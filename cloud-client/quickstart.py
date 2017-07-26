@@ -29,11 +29,18 @@ def run_quickstart(fileName):
     speech_client = speech.Client()
 
     # The name of the audio file to transcribe
-    file_name = os.path.join(
-        os.path.dirname(__file__),
-        'resources',
-        fileName)
+    currentPath = os.path.dirname(os.path.realpath(__file__));
+    currentPath = os.path.abspath(os.path.join(currentPath, os.pardir))
 
+    #file_name = os.path.join(
+    #    os.path.dirname(__file__),
+    #    'resources',
+    #    fileName)
+
+    file_name = os.path.join(
+        currentPath,
+        'public/audio',
+        fileName)
     # Loads the audio into memory
     with io.open(file_name, 'rb') as audio_file:
         content = audio_file.read()
