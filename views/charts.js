@@ -26,7 +26,9 @@ class Charts extends React.Component{
         gender: ['male', 'female'],
         age: ['5-10', '10-18', '18-40', '40+'],
         native: ['native', 'nonnative'],
-        audio: ['audio1', 'audio2', 'audio3']
+        audio: ['audio1', 'audio2', 'audio3'],
+
+
     }
     this.handleAudio = this.handleAudio.bind(this)
     this.handleAge = this.handleAge.bind(this)
@@ -157,21 +159,27 @@ class Charts extends React.Component{
           {name: 'Google', Accuracy: ((googleAccuracy*100).toFixed(2))*1},
           {name: 'Pullstring', Accuracy: ((pullstringAccuracy*100).toFixed(2))*1},
       ]
+      let emptyArray = [
+          {name: 'Watson', Accuracy: 0},
+          {name: 'Google', Accuracy: 0},
+          {name: 'Pullstring', Accuracy: 0}
+      ]
+      console.log(chartsArray)
     return(
       <StyleRoot>
         <div style={{position: 'absolute', height: '80%', width: '100%'}}>
           <div style={{display: 'block', textAlign: 'center', height: '100%', width: '100%', 'paddingRight': '6%'}}>
             <div style={{display: 'inline-block', height: '50%', width: '50%', minHeight: '500px', }}>
-              <div style = {{paddingLeft: 80}}>Voice Recognition Accuracy</div>
-              <ResponsiveContainer>
-                <BarChart width={730} height={250} data={chartsArray}>
-                  <XAxis dataKey="name" padding={{ right: 10 }}/>
-                  <YAxis label='%' width={90} domain={[0, 100]}/>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
-                  <Bar dataKey="Accuracy" fill="#000021" />
-                </BarChart>
-              </ResponsiveContainer>
+                    <div style = {{paddingLeft: 80}}>Voice Recognition Accuracy</div>
+                    <ResponsiveContainer>
+                    <BarChart width={730} height={250} data={watsonAccuracy ? chartsArray : emptyArray}>
+                        <XAxis dataKey="name" padding={{ right: 10 }}/>
+                        <YAxis label='%' width={90} domain={[0, 100]}/>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Tooltip />
+                        <Bar dataKey="Accuracy" fill="#000021" />
+                    </BarChart>
+                </ResponsiveContainer>
             </div>
             <div style={{display: 'inline-block', textAlign: 'center', height: '50%', width: '20%', minHeight: '500px', marginLeft: '40px'}}>
                 <div style = {{position: 'absolute', marginLeft: '10px', marginTop: 20, fontWeight: 'bold'}}>Filters:</div>
