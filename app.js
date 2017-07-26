@@ -21,6 +21,7 @@ const watson = require('watson-developer-cloud');
 var fs = require('fs');
 var url = require('url');
 var path = require('path');
+var wavFileInfo = require('wav-file-info');
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -218,11 +219,30 @@ function uploadFileFunction(request, response) {
       var fileURL = 'http://' + appAddress + ':' + port + '/public/audio/' + fileName;
 
       console.log('fileURL: ', fileURL);
-      response.write(JSON.stringify({
-          fileURL: fileURL,
-          fileName: fileName
-      }));
-      response.end();
+
+      var path = './public/audio/' + fileName;
+      wavFileInfo.infoByFilename(path, function(err, info){
+        if (err) {
+          response.write(JSON.stringify({
+              fileURL: fileURL,
+              fileName: fileName
+          }));
+          response.end();
+
+        } else {
+          response.write(JSON.stringify({
+              fileURL: fileURL,
+              fileName: fileName,
+              info: info
+          }));
+          response.end();
+
+        }
+
+
+      });
+
+
   });
 
 

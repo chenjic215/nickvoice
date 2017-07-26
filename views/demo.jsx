@@ -13,6 +13,7 @@ import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
 import {Table} from './table.jsx';
 
+
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
 var recorder;
@@ -132,7 +133,7 @@ export default React.createClass({
      if (this.state.audioSource === 'mic') {
       this.setState({audioSource: null});
       //stop the recording and quit
-      console.warn("try to stop");
+      //console.warn("try to stop");
 
       this.props.stopRecording();
 
@@ -188,100 +189,80 @@ export default React.createClass({
   handleUserFile: function(files) {
 
     this.xhr('/uploadFile', files[0], function(responseText) {
-        // // var fileURL = JSON.parse(responseText).fileURL;
-        // // console.log('fileURL', fileURL);
-        // console.warn("hello here");
-        // //pass to translation
-        var fileName = JSON.parse(responseText).fileName;
-         console.warn('FE-fileName: '+fileName);
-        // return fileName;
 
-        //var filename = files[0].name;
+        //pass to translation
+        if (JSON.parse(responseText).info.header.sample_rate == 16000 && JSON.parse(responseText).info.header.num_channels == 1) {
 
-        fetch('/api/translation',{
-          method: "GET",
-          headers: {
-            files: files,
-            filename: fileName,
-            preview: files[0].preview,
-            token: this.state.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-        }).then(res => {
+                var fileName = JSON.parse(responseText).fileName;
 
-          if (res.status != 200) {
-            throw new Error('Error retrieving auth token');
-          }
+                fetch('/api/translation',{
+                  method: "GET",
+                  headers: {
+                    files: files,
+                    filename: fileName,
+                    preview: files[0].preview,
+                    token: this.state.token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                }).then(res => {
 
-          return res.json();
-        }).then( msg => {
+                  if (res.status != 200) {
+                    throw new Error('Error retrieving auth token');
+                  }
 
-          var currentTranslate =  {
-            filename: files[0].name,
-            type: "User upload",
-            google: msg.google,
-            pullstring: msg.pullstring
-          };
+                  return res.json();
+                }).then( msg => {
+                  var currentTranslate =  {
+                    filename: files[0].name,
+                    type: "User upload",
+                    google: msg.google,
+                    pullstring: msg.pullstring
+                  };
 
-          var history = this.state.history;
-          // if (this.state.watson) {
+                  var history = this.state.history;
 
-            // if (history.length > 0) {
-            //   if (history[history.length-1].filename) {
-            //     //add a new block
-            //     currentTranslate.id = history.length;
-            //     history.push(currentTranslate);
-            //   } else {
-            //     //edit the last block
-            //     currentTranslate.id = history[history.length-1].id;
-            //     currentTranslate.watson = history[history.length-1].watson;
-            //     history[history.length-1] = currentTranslate;
-            //   }
-            // } else {
-            //   //add a new block at [0]
-            //   currentTranslate.id = 0;
-            //   history.push(currentTranslate);
-            // }
+                    if (history[this.state.googlePullStringCounter]) {
+                      //edit
+                      //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
+                      history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
+                      history[this.state.googlePullStringCounter].type = currentTranslate.type;
+                      history[this.state.googlePullStringCounter].google = currentTranslate.google;
+                      history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
+                    } else {
+                      //add a new block at [0]
+                      currentTranslate.id = this.state.googlePullStringCounter;
+                      history.push(currentTranslate);
+                    }
 
-            if (history[this.state.googlePullStringCounter]) {
-              //edit
-              //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
-              history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
-              history[this.state.googlePullStringCounter].type = currentTranslate.type;
-              history[this.state.googlePullStringCounter].google = currentTranslate.google;
-              history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
-            } else {
-              //add a new block at [0]
-              currentTranslate.id = this.state.googlePullStringCounter;
-              history.push(currentTranslate);
-            }
+                  // }
 
-          // }
+                  var counter = this.state.googlePullStringCounter + 1;
+                  this.setState({
+                    google: msg.google,
+                    pullstring: msg.pullstring,
+                    history: history,
+                    googlePullStringCounter: counter
+                  });
+                  //console.warn(msg);
+                });
 
-          var counter = this.state.googlePullStringCounter + 1;
-          this.setState({
-            google: msg.google,
-            pullstring: msg.pullstring,
-            history: history,
-            googlePullStringCounter: counter
-          });
-          //console.warn(msg);
-        });
+                const file = files[0];
+                if (!file) {
+                  return;
+                }
 
-        const file = files[0];
-        if (!file) {
-          return;
+                this.reset();
+                this.setState({audioSource: 'upload'});
+                this.playFile(file);
+
+
+
+
+        } else {
+            this.handleUserWAVFileFromatRejection();
         }
-
-        this.reset();
-        this.setState({audioSource: 'upload'});
-        this.playFile(file);
-
-
     }.bind(this));
-
-
   },
 
   getOtherTranslation() {
@@ -292,6 +273,11 @@ export default React.createClass({
   handleUserFileRejection: function() {
     this.setState({error: 'Sorry, that file does not appear to be compatible.'});
   },
+
+  handleUserWAVFileFromatRejection: function() {
+    this.setState({error: 'Sorry, we are only supporting WAV file with sample_rate = 160000 and num_channels = 1.'});
+  },
+
   handleSample1Click() {
     this.handleSampleClick(1);
   },
@@ -361,6 +347,7 @@ export default React.createClass({
 
       return res.json();
     }).then( msg => {
+
       var nameOfTheFile = filename;
       if (type == "User Record") {
         nameOfTheFile = "UserMic"
@@ -374,29 +361,30 @@ export default React.createClass({
 
       var history = this.state.history;
 
-      if (history.length > 0) {
-        if (history[history.length-1].filename) {
-          //add a new block
-          currentTranslate.id = history.length;
-          history.push(currentTranslate);
+        if (history[this.state.googlePullStringCounter]) {
+          //edit
+          //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
+          history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
+          history[this.state.googlePullStringCounter].type = currentTranslate.type;
+          history[this.state.googlePullStringCounter].google = currentTranslate.google;
+          history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
         } else {
-          //edit the last block
-          currentTranslate.id = history[history.length-1].id;
-          currentTranslate.watson = history[history.length-1].watson;
-          history[history.length-1] = currentTranslate;
+          //add a new block at [0]
+          currentTranslate.id = this.state.googlePullStringCounter;
+          history.push(currentTranslate);
         }
-      } else {
-        //add a new block at [0]
-        currentTranslate.id = 0;
-        history.push(currentTranslate);
-      }
 
+      // }
+
+      var counter = this.state.googlePullStringCounter + 1;
       this.setState({
         google: msg.google,
         pullstring: msg.pullstring,
-        history: history
+        history: history,
+        googlePullStringCounter: counter
       });
-      console.warn(msg);
+      //console.warn(msg);
+
     });
 
     // const file = files[0];
@@ -756,7 +744,7 @@ export default React.createClass({
         <li className="base--li base--p_light">Use your microphone to record audio. (Not supported in current browser)</li>;
 
     return (
-      <Dropzone onDropAccepted={this.handleUserFile} onDropRejected={this.handleUserFileRejection} maxSize={200 * 1024 * 1024} accept="audio/wav, audio/l16, audio/ogg, audio/flac, .wav, .ogg, .opus, .flac" disableClick={true} className="dropzone _container _container_large" activeClassName="dropzone-active" rejectClassName="dropzone-reject" ref={(node) => {
+      <Dropzone onDropAccepted={this.handleUserFile} onDropRejected={this.handleUserFileRejection} maxSize={200 * 1024 * 1024} accept="audio/wav, .wav" disableClick={true} className="dropzone _container _container_large" activeClassName="dropzone-active" rejectClassName="dropzone-reject" ref={(node) => {
         this.dropzone = node;
       }}>
 
