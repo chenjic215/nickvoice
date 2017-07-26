@@ -96,9 +96,6 @@ class Navigation extends React.Component {
         //console.warn('fffileName: '+fileName);
         return fileName;
     });
-
-
-
   }
 
   // XHR2/FormData
