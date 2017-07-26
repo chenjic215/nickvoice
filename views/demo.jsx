@@ -164,95 +164,124 @@ export default React.createClass({
     }
   },
 
+  // XHR2/FormData
+  xhr(url, data, callback) {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+          if (request.readyState == 4 && request.status == 200) {
+              this.setState({
+                userLastRecorded_fileName: JSON.parse(request.responseText).fileName,
+                updated: true,
+                recording: false
+              });
+              callback(request.responseText);
+          }
+      }.bind(this);
+
+      request.open('POST', url);
+
+      var formData = new FormData();
+      formData.append('file', data);
+      request.send(formData);
+  },
+
   handleUserFile: function(files) {
 
-    // this.setState({
-    //   watson: null,
-    //   google: null,
-    //   pullstring: null,
-    // });
+    this.xhr('/uploadFile', files[0], function(responseText) {
+        // // var fileURL = JSON.parse(responseText).fileURL;
+        // // console.log('fileURL', fileURL);
+        // console.warn("hello here");
+        // //pass to translation
+        var fileName = JSON.parse(responseText).fileName;
+         console.warn('FE-fileName: '+fileName);
+        // return fileName;
 
-    var filename = files[0].name;
+        //var filename = files[0].name;
 
-    fetch('/api/translation',{
-      method: "GET",
-      headers: {
-        files: files,
-        filename: files[0].name,
-        preview: files[0].preview,
-        token: this.state.token,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    }).then(res => {
+        fetch('/api/translation',{
+          method: "GET",
+          headers: {
+            files: files,
+            filename: fileName,
+            preview: files[0].preview,
+            token: this.state.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        }).then(res => {
 
-      if (res.status != 200) {
-        throw new Error('Error retrieving auth token');
-      }
+          if (res.status != 200) {
+            throw new Error('Error retrieving auth token');
+          }
 
-      return res.json();
-    }).then( msg => {
+          return res.json();
+        }).then( msg => {
 
-      var currentTranslate =  {
-        filename: filename,
-        type: "User upload",
-        google: msg.google,
-        pullstring: msg.pullstring
-      };
+          var currentTranslate =  {
+            filename: files[0].name,
+            type: "User upload",
+            google: msg.google,
+            pullstring: msg.pullstring
+          };
 
-      var history = this.state.history;
-      // if (this.state.watson) {
+          var history = this.state.history;
+          // if (this.state.watson) {
 
-        // if (history.length > 0) {
-        //   if (history[history.length-1].filename) {
-        //     //add a new block
-        //     currentTranslate.id = history.length;
-        //     history.push(currentTranslate);
-        //   } else {
-        //     //edit the last block
-        //     currentTranslate.id = history[history.length-1].id;
-        //     currentTranslate.watson = history[history.length-1].watson;
-        //     history[history.length-1] = currentTranslate;
-        //   }
-        // } else {
-        //   //add a new block at [0]
-        //   currentTranslate.id = 0;
-        //   history.push(currentTranslate);
-        // }
+            // if (history.length > 0) {
+            //   if (history[history.length-1].filename) {
+            //     //add a new block
+            //     currentTranslate.id = history.length;
+            //     history.push(currentTranslate);
+            //   } else {
+            //     //edit the last block
+            //     currentTranslate.id = history[history.length-1].id;
+            //     currentTranslate.watson = history[history.length-1].watson;
+            //     history[history.length-1] = currentTranslate;
+            //   }
+            // } else {
+            //   //add a new block at [0]
+            //   currentTranslate.id = 0;
+            //   history.push(currentTranslate);
+            // }
 
-        if (history[this.state.googlePullStringCounter]) {
-          //edit
-          //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
-          history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
-          history[this.state.googlePullStringCounter].type = currentTranslate.type;
-          history[this.state.googlePullStringCounter].google = currentTranslate.google;
-          history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
-        } else {
-          //add a new block at [0]
-          currentTranslate.id = this.state.googlePullStringCounter;
-          history.push(currentTranslate);
+            if (history[this.state.googlePullStringCounter]) {
+              //edit
+              //history[this.state.googlePullStringCounter].id = this.state.googlePullStringCounter;
+              history[this.state.googlePullStringCounter].filename = currentTranslate.filename;
+              history[this.state.googlePullStringCounter].type = currentTranslate.type;
+              history[this.state.googlePullStringCounter].google = currentTranslate.google;
+              history[this.state.googlePullStringCounter].pullstring = currentTranslate.pullstring;
+            } else {
+              //add a new block at [0]
+              currentTranslate.id = this.state.googlePullStringCounter;
+              history.push(currentTranslate);
+            }
+
+          // }
+
+          var counter = this.state.googlePullStringCounter + 1;
+          this.setState({
+            google: msg.google,
+            pullstring: msg.pullstring,
+            history: history,
+            googlePullStringCounter: counter
+          });
+          //console.warn(msg);
+        });
+
+        const file = files[0];
+        if (!file) {
+          return;
         }
 
-      // }
+        this.reset();
+        this.setState({audioSource: 'upload'});
+        this.playFile(file);
 
-      var counter = this.state.googlePullStringCounter + 1;
-      this.setState({
-        google: msg.google,
-        pullstring: msg.pullstring,
-        history: history,
-        googlePullStringCounter: counter
-      });
-    	//console.warn(msg);
-    });
 
-    const file = files[0];
-    if (!file) {
-      return;
-    }
+    }.bind(this));
 
-    this.reset();
-    this.setState({audioSource: 'upload'});
-    this.playFile(file);
+
   },
 
   getOtherTranslation() {
@@ -376,7 +405,7 @@ export default React.createClass({
     // }
     this.reset();
     this.setState({audioSource: 'upload'});
-    //this.playFile('audio/' + filename);
+    this.playFile('audio/' + filename);
   },
 
 
@@ -397,8 +426,8 @@ export default React.createClass({
     // In addition to this, it passes other service-level options along to the RecognizeStream that manages the actual WebSocket connection.
 
     this.handleStream(recognizeFile(this.getRecognizeOptions({
-      file: file, play: false, // play the audio out loud
-      realtime: false, // use a helper stream to slow down the transcript output to match the audio speed
+      file: file, play: true, // play the audio out loud
+      realtime: true, // use a helper stream to slow down the transcript output to match the audio speed
     })));
   },
 
@@ -543,8 +572,6 @@ export default React.createClass({
     if (final[0]) {
       if (final[0].results[0].final) {
 
-          if (watsonExtraCounter % 5 === 0) {
-
             var transcript = "";
 
             for (var i =0; i< final[0].results.length; i++) {
@@ -553,29 +580,72 @@ export default React.createClass({
 
             var history = this.state.history;
 
-            if (history[this.state.watsonCounter]) {
-              history[this.state.watsonCounter].watson = transcript;
-            } else {
-              var insert = {
-                id: this.state.watsonCounter,
-                watson : transcript
+              if (history[this.state.watsonCounter]) {
+                if (history[this.state.watsonCounter].watson) {
+
+                  if (history[this.state.watsonCounter-1].watson === transcript) {
+                    //do nothing
+                  } else {
+                    history[this.state.watsonCounter].watson = transcript;
+
+                    var counter = this.state.watsonCounter + 1;
+                    this.setState({
+                      watson : transcript,
+                      history: history,
+                      watsonCounter: counter
+                    });
+
+                  }
+
+                  //do nothing.
+                } else {
+                  history[this.state.watsonCounter].watson = transcript;
+
+                  var counter = this.state.watsonCounter + 1;
+                  this.setState({
+                    watson : transcript,
+                    history: history,
+                    watsonCounter: counter
+                  });
+
+                }
+
+              } else {
+                if (this.state.watsonCounter != 0) {
+                  if (history[this.state.watsonCounter-1].watson === transcript) {
+                    //do nothing
+                  } else {
+                    var insert = {
+                      id: this.state.watsonCounter,
+                      watson : transcript
+                    }
+                    history.push(insert);
+
+                    var counter = this.state.watsonCounter + 1;
+                    this.setState({
+                      watson : transcript,
+                      history: history,
+                      watsonCounter: counter
+                    });
+                  }
+
+
+                } else {
+                  var insert = {
+                    id: this.state.watsonCounter,
+                    watson : transcript
+                  }
+                  history.push(insert);
+
+                  var counter = this.state.watsonCounter + 1;
+                  this.setState({
+                    watson : transcript,
+                    history: history,
+                    watsonCounter: counter
+                  });
+                }
               }
-              history.push(insert);
-            }
 
-            var counter = this.state.watsonCounter + 1;
-            this.setState({
-              watson : transcript,
-              history: history,
-              watsonCounter: counter
-            });
-
-
-
-            watsonExtraCounter++;
-          } else {
-            watsonExtraCounter++;
-          }
 
 
         // var transcript = "";

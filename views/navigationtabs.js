@@ -93,7 +93,7 @@ class Navigation extends React.Component {
 
         //pass to translation
         var fileName = JSON.parse(responseText).fileName;
-        console.warn('fileName: '+fileName);
+        console.warn('fffileName: '+fileName);
         return fileName;
     });
 
