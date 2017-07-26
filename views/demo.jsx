@@ -129,7 +129,7 @@ export default React.createClass({
   // },
 
   handleMicClick() {
-    if (this.state.audioSource === 'mic') {
+     if (this.state.audioSource === 'mic') {
       this.setState({audioSource: null});
       //stop the recording and quit
       console.warn("try to stop");
@@ -165,6 +165,7 @@ export default React.createClass({
   },
 
   handleUserFile: function(files) {
+
     // this.setState({
     //   watson: null,
     //   google: null,

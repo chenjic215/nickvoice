@@ -41,15 +41,13 @@ export function Table(props) {
         <td>
           { props.data.pullstring}
         </td>
-
-        <td><form><input type="text" name="hi"/></form></td>
       </tr>
     );
   }
 
   try {
     let title = (
-      <tr>
+      <tr style={{color: '#000021', fontWeight: '500'}}>
         <td>
           id
         </td>
@@ -68,7 +66,6 @@ export function Table(props) {
         <td>
           PullString
         </td>
-        <td>What does the audio clip actually say?</td>
       </tr>
     )
     let rows = props.history.map(item => {
@@ -78,7 +75,7 @@ export function Table(props) {
 
     })
 
-    return <table > < tbody > {title} {rows} < /tbody> < /table>
+    return <table style={{color: '#000021'}}> < tbody > {title} {rows} < /tbody> < /table>
 
   } catch (ex) {
     console.log(ex);

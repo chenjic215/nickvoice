@@ -5,9 +5,22 @@ import Demo from './demo.jsx'
 import Charts from './charts'
 import Radium from 'radium'
 import RecordRTC from 'recordrtc';
+import Logo from './Logo.jsx'
+import { ResponsiveContainer} from 'recharts';
+
 
 var recorder = null;
 var mediaStream = null;
+
+const styles = {
+  blueberry: {
+    display: 'block',
+    position: 'absolute',
+    width: 'auto',
+    marginTop: '18px',
+    right: '20px',
+  },
+}
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -136,8 +149,11 @@ class Navigation extends React.Component {
   render() {
 
     return (
-      <div style={{border: 'none', height: '100%'}} className="special">
-        <Tabs selected={0} style={{border: 'none', height: '100%'}} className="special">
+      <div>
+        <div style= {styles.blueberry}>
+          <Logo/>
+        </div>
+        <Tabs selected={0}>
 
           <Pane label="Live Demo" className="special">
             <div style={{paddingTop: 40}}>
@@ -153,7 +169,9 @@ class Navigation extends React.Component {
 
           <Pane label="Charts">
             <div style={{paddingTop: 50}}>
-              <Charts/>
+                <ResponsiveContainer height='100%' width='100%'>
+                    <Charts/>
+                </ResponsiveContainer>
             </div>
           </Pane>
 
@@ -161,5 +179,6 @@ class Navigation extends React.Component {
       </div>
     );
   }
+
 };
 export default Radium(Navigation)
