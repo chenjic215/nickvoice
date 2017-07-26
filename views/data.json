@@ -1,865 +1,886 @@
 {
-   "sample": [
-      {
-         "name": "AnaG",
-         "age": 54,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.67,
-            "google": 1,
-            "pullstring": 0.35
-         },
-         "audio3": {
-            "watson": 0.75,
-            "google": 0.9,
-            "pullstring": 0
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 41,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.4,
-            "google": 0.95,
-            "pullstring": 0.4
-         },
-         "audio3": {
-            "watson": 0.3,
-            "google": 0.95,
-            "pullstring": 0.5
-         }
-      },
-      {
-         "name": "Celina",
-         "age": 51,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 0.9,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.8,
-            "google": 1,
-            "pullstring": 0.67
-         },
-         "audio3": {
-            "watson": 0.15,
-            "google": 0.95,
-            "pullstring": 0
-         }
-      },
-      {
-         "name": "Maria",
-         "age": 53,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.8
-         },
-         "audio3": {
-            "watson": 0.8,
-            "google": 0.9,
-            "pullstring": 0.75
-         }
-      },
-      {
-         "name": "Meena",
-         "age": 53,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 0.9,
-            "google": 0.9,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.3,
-            "google": 0.5,
-            "pullstring": 0.4
-         },
-         "audio3": {
-            "watson": 0.4,
-            "google": 0.95,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Monica",
-         "age": 52,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 0.9,
-            "google": 0.9,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "MonicaP",
-         "age": 54,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.9,
-            "google": 1,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Nirvi",
-         "age": 31,
-         "gender": "female",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Josie",
-         "age": 7,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 0.5,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio3": {
-            "watson": 0,
-            "google": 1,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 9,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 0.5,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.2,
-            "google": 0.95,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 0.7,
-            "google": 0.85,
-            "pullstring": 0.8
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 17,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.6,
-            "google": 0.75,
-            "pullstring": 0.7
-         },
-         "audio3": {
-            "watson": 0.85,
-            "google": 0.9,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 13,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.75,
-            "pullstring": 0.75
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 15,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.98,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.9,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 19,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.75
-         },
-         "audio3": {
-            "watson": 0.9,
-            "google": 0.9,
-            "pullstring": 0.9
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 43,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 0.98,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 45,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.8,
-            "pullstring": 0.8
-         },
-         "audio3": {
-            "watson": 0.8,
-            "google": 0.8,
-            "pullstring": 0.8
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 52,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 1,
-            "pullstring": 0.85
-         }
-      },
-      {
-         "name": "Dana",
-         "age": 24,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Alex",
-         "age": 22,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.98,
-            "pullstring": 0.98
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.98
-         }
-      },
-      {
-         "name": "Ina",
-         "age": 22,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.8,
-            "google": 0.8,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.98,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Kaitlyn",
-         "age": 29,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 0.98,
-            "google": 0.95,
-            "pullstring": 0.98
-         }
-      },
-      {
-         "name": "Kathy",
-         "age": 45,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Phoebe",
-         "age": 22,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 0.9,
-            "google": 0.92,
-            "pullstring": 0.9
-         }
-      },
-      {
-         "name": "Scarlet",
-         "age": 17,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.92,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.8,
-            "google": 0.7,
-            "pullstring": 0.7
-         }
-      },
-      {
-         "name": "Teresa",
-         "age": 23,
-         "gender": "female",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.6,
-            "google": 1,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 54,
-         "gender": "male",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 0.9,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Devendra",
-         "age": 62,
-         "gender": "male",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.4,
-            "google": 0.85,
-            "pullstring": 0.65
-         },
-         "audio3": {
-            "watson": 0.75,
-            "google": 0.98,
-            "pullstring": 0.9
-         }
-      },
-      {
-         "name": "Gabo",
-         "age": 54,
-         "gender": "male",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         }
-      },
-      {
-         "name": "Querol",
-         "age": 59,
-         "gender": "male",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.9
-         },
-         "audio2": {
-            "watson": 0.65,
-            "google": 1,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 0.7,
-            "google": 0.85,
-            "pullstring": 0.1
-         }
-      },
-      {
-         "name": "Shaival",
-         "age": 31,
-         "gender": "male",
-         "native": "nonnative",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.4,
-            "google": 0.9,
-            "pullstring": 0.4
-         },
-         "audio3": {
-            "watson": 0.6,
-            "google": 0.75,
-            "pullstring": 0.1
-         }
-      },
-      {
-         "name": "Aashay",
-         "age": 25,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.85,
-            "google": 1,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Adi",
-         "age": 24,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.8,
-            "pullstring": 0.85
-         },
-         "audio3": {
-            "watson": 0.92,
-            "google": 0.97,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Ali",
-         "age": 23,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.8,
-            "pullstring": 0.8
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anil",
-         "age": 48,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 0.97
-         },
-         "audio3": {
-            "watson": 0.9,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 43,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.6,
-            "google": 0.75,
-            "pullstring": 0.8
-         },
-         "audio3": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 44,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.95,
-            "google": 0.95,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 0.98,
-            "google": 0.98,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Anon",
-         "age": 45,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.9,
-            "google": 0.95,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.98,
-            "google": 1,
-            "pullstring": 0.98
-         }
-      },
-      {
-         "name": "Eshan",
-         "age": 18,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 1,
-            "google": 0.98,
-            "pullstring": 0.95
-         },
-         "audio3": {
-            "watson": 0.9,
-            "google": 0.95,
-            "pullstring": 0.95
-         }
-      },
-      {
-         "name": "Neel",
-         "age": 29,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.93,
-            "google": 0.98,
-            "pullstring": 0.93
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.98
-         }
-      },
-      {
-         "name": "Xavier",
-         "age": 23,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 1,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.9,
-            "google": 0.9,
-            "pullstring": 0.9
-         },
-         "audio3": {
-            "watson": 1,
-            "google": 0.95,
-            "pullstring": 0.98
-         }
-      },
-      {
-         "name": "Jordan",
-         "age": 5,
-         "gender": "male",
-         "native": "native",
-         "audio1": {
-            "watson": 0.95,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio2": {
-            "watson": 0.5,
-            "google": 1,
-            "pullstring": 1
-         },
-         "audio3": {
-            "watson": 0.5,
-            "google": 0.97,
-            "pullstring": 1
-         }
-      }
-   ]
+    "sample": [
+        {
+            "name": "AnaG",
+            "age": 54,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.67,
+                "google": 1,
+                "pullstring": 0.35
+            },
+            "audio3": {
+                "watson": 0.75,
+                "google": 0.9,
+                "pullstring": 0
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 41,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.2,
+                "google": 0.95,
+                "pullstring": 0.8
+            },
+            "audio3": {
+                "watson": 0.3,
+                "google": 0.9,
+                "pullstring": 0.5
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 41,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.8,
+                "google": 0.9,
+                "pullstring": 0.5
+            },
+            "audio3": {
+                "watson": 0.8,
+                "google": 0.95,
+                "pullstring": 0.9
+            }
+        },
+        {
+            "name": "Celina",
+            "age": 51,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 0.9,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.8,
+                "google": 1,
+                "pullstring": 0.67
+            },
+            "audio3": {
+                "watson": 0.15,
+                "google": 0.95,
+                "pullstring": 0
+            }
+        },
+        {
+            "name": "Maria",
+            "age": 53,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.8
+            },
+            "audio3": {
+                "watson": 0.8,
+                "google": 0.9,
+                "pullstring": 0.75
+            }
+        },
+        {
+            "name": "Meena",
+            "age": 53,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 0.9,
+                "google": 0.9,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.3,
+                "google": 0.5,
+                "pullstring": 0.4
+            },
+            "audio3": {
+                "watson": 0.4,
+                "google": 0.95,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Monica",
+            "age": 52,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.9,
+                "google": 0.9,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "MonicaP",
+            "age": 54,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.9,
+                "google": 1,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Nirvi",
+            "age": 31,
+            "gender": "female",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 17,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.6,
+                "google": 0.75,
+                "pullstring": 0.7
+            },
+            "audio3": {
+                "watson": 0.85,
+                "google": 0.9,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 13,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.75,
+                "pullstring": 0.75
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 15,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.98,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.9,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 19,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.75
+            },
+            "audio3": {
+                "watson": 0.9,
+                "google": 0.9,
+                "pullstring": 0.9
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 43,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 0.98,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 45,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.8,
+                "pullstring": 0.8
+            },
+            "audio3": {
+                "watson": 0.8,
+                "google": 0.8,
+                "pullstring": 0.8
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 9,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 0.5,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.2,
+                "google": 0.95,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.7,
+                "google": 0.85,
+                "pullstring": 0.8
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 52,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 1,
+                "pullstring": 0.85
+            }
+        },
+        {
+            "name": "Dana",
+            "age": 24,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Alex",
+            "age": 22,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.98,
+                "pullstring": 0.98
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.98
+            }
+        },
+        {
+            "name": "Ina",
+            "age": 22,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.8,
+                "google": 0.8,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.98,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Josie",
+            "age": 7,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 0.5,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio3": {
+                "watson": 0,
+                "google": 1,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Kaitlyn",
+            "age": 29,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.98,
+                "google": 0.95,
+                "pullstring": 0.98
+            }
+        },
+        {
+            "name": "Kathy",
+            "age": 45,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Phoebe",
+            "age": 22,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Scarlet",
+            "age": 17,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.92,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.8,
+                "google": 0.7,
+                "pullstring": 0.7
+            }
+        },
+        {
+            "name": "Teresa",
+            "age": 23,
+            "gender": "female",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.6,
+                "google": 1,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 1,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 54,
+            "gender": "male",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 0.9,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Devendra",
+            "age": 62,
+            "gender": "male",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.4,
+                "google": 0.85,
+                "pullstring": 0.65
+            },
+            "audio3": {
+                "watson": 0.75,
+                "google": 0.98,
+                "pullstring": 0.9
+            }
+        },
+        {
+            "name": "Gabo",
+            "age": 54,
+            "gender": "male",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 1,
+                "pullstring": 1
+            }
+        },
+        {
+            "name": "Querol",
+            "age": 59,
+            "gender": "male",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.9
+            },
+            "audio2": {
+                "watson": 0.65,
+                "google": 1,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 0.7,
+                "google": 0.85,
+                "pullstring": 0.1
+            }
+        },
+        {
+            "name": "Shaival",
+            "age": 31,
+            "gender": "male",
+            "native": "nonnative",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.4,
+                "google": 0.9,
+                "pullstring": 0.4
+            },
+            "audio3": {
+                "watson": 0.6,
+                "google": 0.75,
+                "pullstring": 0.1
+            }
+        },
+        {
+            "name": "Aashay",
+            "age": 25,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.85,
+                "google": 1,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Adi",
+            "age": 24,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.8,
+                "pullstring": 0.85
+            },
+            "audio3": {
+                "watson": 0.92,
+                "google": 0.97,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Ali",
+            "age": 23,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.8,
+                "pullstring": 0.8
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anil",
+            "age": 48,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 0.97
+            },
+            "audio3": {
+                "watson": 0.9,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 43,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.6,
+                "google": 0.75,
+                "pullstring": 0.8
+            },
+            "audio3": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 44,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.95,
+                "google": 0.95,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 0.98,
+                "google": 0.98,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Anon",
+            "age": 45,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.9,
+                "google": 0.95,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.98,
+                "google": 1,
+                "pullstring": 0.98
+            }
+        },
+        {
+            "name": "Eshan",
+            "age": 18,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 1,
+                "google": 0.98,
+                "pullstring": 0.95
+            },
+            "audio3": {
+                "watson": 0.9,
+                "google": 0.95,
+                "pullstring": 0.95
+            }
+        },
+        {
+            "name": "Neel",
+            "age": 29,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.93,
+                "google": 0.98,
+                "pullstring": 0.93
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.98
+            }
+        },
+        {
+            "name": "Xavier",
+            "age": 23,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 1,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.9,
+                "google": 0.9,
+                "pullstring": 0.9
+            },
+            "audio3": {
+                "watson": 1,
+                "google": 0.95,
+                "pullstring": 0.98
+            }
+        },
+        {
+            "name": "Jordan",
+            "age": 5,
+            "gender": "male",
+            "native": "native",
+            "audio1": {
+                "watson": 0.95,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio2": {
+                "watson": 0.5,
+                "google": 1,
+                "pullstring": 1
+            },
+            "audio3": {
+                "watson": 0.5,
+                "google": 0.97,
+                "pullstring": 1
+            }
+        }
+    ]
 }
