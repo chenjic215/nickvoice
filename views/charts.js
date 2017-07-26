@@ -174,10 +174,10 @@ class Charts extends React.Component{
                     <ResponsiveContainer>
                     <BarChart width={730} height={250} data={watsonAccuracy ? chartsArray : emptyArray}>
                         <XAxis dataKey="name" padding={{ right: 10 }}/>
-                        <YAxis label='%' width={90} domain={[0, 100]}/>
+                        <YAxis label='%' width={90} domain={[40, 100]}/>
                         <CartesianGrid strokeDasharray="3 3" />
                         <Tooltip />
-                        <Bar dataKey="Accuracy" fill="#000021" />
+                        <Bar dataKey="Accuracy" fill="#000021" label={{fontSize: 20}}/>
                     </BarChart>
                 </ResponsiveContainer>
             </div>

@@ -126,8 +126,8 @@ export function TestsTable(props) {
 
   try {
     let NonNativeTitles = (
-      <tr style={{borderBottom: '2px solid #121212'}}>
-        <td>NonNative</td>
+      <tr style={{borderTop: '2px solid #121212', borderBottom: '2px solid #121212'}}>
+        <td style={{fontWeight: 'bold'}}>NonNative</td>
         <td style={{width: 150}}>Age</td>
         <td></td>
         <td style={{width: 500}}>Watson         </td>
@@ -140,7 +140,7 @@ export function TestsTable(props) {
     )
     let NativeTitles = (
       <tr style={{borderTop: '2px solid #121212', borderBottom: '2px solid #121212'}}>
-        <td>Native</td>
+        <td style={{fontWeight: 'bold'}}>Native</td>
         <td style={{width: 150}}>Age</td>
         <td></td>
         <td style={{width: 500}}>Watson         </td>
@@ -189,16 +189,25 @@ export function TestsTable(props) {
         <Tabs selected={0}>
 
           <Pane label="Audio 1">
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
+                  <div>The quick brown fox jumps over the lazy dog</div>
+              </div>
             <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows1}</tbody></table>
             <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows1}</tbody></table>
           </Pane>
 
           <Pane label="Audio 2">
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
+                  <div>Though Christine prefers watching romantic films, she rented the latest action spy thriller and enjoyed watching it with her companions</div>
+              </div>
             <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows2}</tbody></table>
             <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows2}</tbody></table>
           </Pane>
 
           <Pane label="Audio 3">
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
+                  <div>Artificial intelligence promises to help aid humans in their day to day tasks. Unfortunately, an overwhelming amount of people are scared that artificial intelligence will replace humans in the workforce</div>
+              </div>
             <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows3}</tbody></table>
             <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows3}</tbody></table>
           </Pane>
