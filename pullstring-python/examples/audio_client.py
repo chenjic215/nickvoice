@@ -36,7 +36,11 @@ class AudioClient(object):
         # filename with audio of a person speaking that word
         while True:
             #return "./pullstring-python/examples/Josie_3.wav"
-            filepath = "./pullstring-python/examples/" + self.file_name
+            currentPath = os.path.dirname(os.path.realpath(__file__));
+            currentPath = os.path.abspath(os.path.join(currentPath, os.pardir))
+            currentPath = os.path.abspath(os.path.join(currentPath, os.pardir))
+
+            filepath = currentPath + "/public/audio/" + self.file_name
             #filepath = self.file_name
             return filepath
         # while True:

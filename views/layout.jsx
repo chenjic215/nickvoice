@@ -22,7 +22,7 @@ export default function Layout(props) {
         <script src={props.bluemixAnalytics} />
         {/* Bluemix Analytics  - end*/}
       </head>
-      <body>
+      <body>                
 
       {
         // <Header
@@ -43,7 +43,7 @@ export default function Layout(props) {
         // />
 
         // <Footer/>
-        // 
+        //
     }
         <div id="root">
           {props.children}
