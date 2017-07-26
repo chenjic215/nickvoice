@@ -1,5 +1,6 @@
 import React from 'react';
 import {Icon, Tabs, Pane, Alert} from 'watson-react-components';
+import Data from './tablesdata.json'
 
 export function TestsTable(props) {
 
@@ -111,64 +112,73 @@ export function TestsTable(props) {
     return (
       <tr>
         <td>{ props.data.name }</td>
+        <td>{ props.data.age }</td>
         <td></td>
-        <td>{ props.data.actual }</td>
         <td>{ props.data.watson }</td>
+        <td>{ props.data.watson_score }</td>
         <td>{ props.data.google  }</td>
+        <td>{ props.data.google_score }</td>
         <td>{ props.data.pullstring }</td>
+        <td>{ props.data.pullstring_score }</td>
       </tr>
     );
   }
 
   try {
-    let KidTitles = (
-      <tr>
-        <td style={{width: 200}}>Kids</td>
+    let NonNativeTitles = (
+      <tr style={{borderBottom: '2px solid #121212'}}>
+        <td>NonNative</td>
+        <td style={{width: 150}}>Age</td>
         <td></td>
-        <td>Actual</td>
-        <td>Watson</td>
-        <td>Google</td>
-        <td>PullString</td>
+        <td style={{width: 500}}>Watson         </td>
+        <td>Score</td>
+        <td style={{width: 500}}>Google         </td>
+        <td>Score</td>
+        <td style={{width: 500}}>PullString     </td>
+        <td>Score</td>
       </tr>
     )
-    let AdultTitles = (
-      <tr>
-        <td style={{width: 200}}>Adults</td>
+    let NativeTitles = (
+      <tr style={{borderTop: '2px solid #121212', borderBottom: '2px solid #121212'}}>
+        <td>Native</td>
+        <td style={{width: 150}}>Age</td>
         <td></td>
-        <td>Actual</td>
-        <td>Watson</td>
-        <td>Google</td>
-        <td>PullString</td>
+        <td style={{width: 500}}>Watson         </td>
+        <td>Score</td>
+        <td style={{width: 500}}>Google         </td>
+        <td>Score</td>
+        <td style={{width: 500}}>PullString     </td>
+        <td>Score</td>
       </tr>
     )
 
-    let KidRows1 = a1.map(item => {
-      if (item.id > 1) {
+    let NativeRows1 = Data.map((item, key) => {
+      if (item.audio == "1" && item.native == "native") {
+          return <PersonRow key = {key} data = {item}/>
+        }
+    })
+    let NonNativeRows1 = Data.map((item, key) => {
+      if (item.audio == "1" && item.native == "nonnative") {
+          return <PersonRow key = {key} data = {item}/>
+        }
+    })
+    let NativeRows2 = Data.map((item, key) => {
+      if (item.audio == "2" && item.native == "native") {
+          return <PersonRow key = {key} data = {item}/>
+        }
+    })
+    let NonNativeRows2 = Data.map(item => {
+      if (item.audio == "2" && item.native == "nonnative") {
           return <PersonRow key = {item.id} data = {item}/>
         }
     })
-    let AdultRows1 = a1.map(item => {
-      if (item.id < 2) {
+    let NativeRows3 = Data.map(item => {
+      if (item.audio == "3" && item.native == "native") {
           return <PersonRow key = {item.id} data = {item}/>
         }
     })
-    let KidRows2 = a2.map(item => {
-      if (item.id > 1) {
-          return <PersonRow key = {item.id} data = {item}/>
-        }
-    })
-    let AdultRows2 = a2.map(item => {
-      if (item.id < 2) {
-          return <PersonRow key = {item.id} data = {item}/>
-        }
-    })
-    let KidRows3 = a3.map(item => {
-      if (item.id > 1) {
-          return <PersonRow key = {item.id} data = {item}/>
-        }
-    })
-    let AdultRows3 = a3.map(item => {
-      if (item.id < 2) {
+    let NonNativeRows3 = Data.map(item => {
+      if (item.audio == "3" && item.native == "nonnative") {
           return <PersonRow key = {item.id} data = {item}/>
         }
     })
@@ -179,18 +189,18 @@ export function TestsTable(props) {
         <Tabs selected={0}>
 
           <Pane label="Audio 1">
-            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows1}</tbody></table>
-            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows1}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows1}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows1}</tbody></table>
           </Pane>
 
           <Pane label="Audio 2">
-            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows2}</tbody></table>
-            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows2}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows2}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows2}</tbody></table>
           </Pane>
 
           <Pane label="Audio 3">
-            <table style={{color: '#000021'}}><tbody>{KidTitles}{KidRows3}</tbody></table>
-            <table style={{color: '#000021'}}><tbody>{AdultTitles}{AdultRows3}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NonNativeTitles}{NonNativeRows3}</tbody></table>
+            <table style={{color: '#000021'}}><tbody>{NativeTitles}{NativeRows3}</tbody></table>
           </Pane>
 
         </Tabs>
