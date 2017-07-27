@@ -212,3 +212,6 @@ body {
 .recharts-text {
   fill: #000021;
 }
+.recharts-label {
+  fill: white;
+}
